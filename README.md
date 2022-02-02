@@ -6,5 +6,3 @@ This project will involve system analysis, design, implementation, and testing o
 System Operation:
 
 When a customer opens the GUI, they will have the option to log in or create an account and save their information for future use. There will also be a guest option, where customers can see the entire menu or search for a specific type of food, and add items to their cart. Customers will be able to see a list of everything they have in their cart, add more items, remove items, and see the total price of everything selected. Then they can enter their contact and payment information to purchase their choices. Once purchased they can see how many people are in line ahead of them and see the expected time their order will be completed in. Resturaunt staff will also be able to log in to add more menu items and give coupons to frequent customers.
-
-Testing please delete me later :(
