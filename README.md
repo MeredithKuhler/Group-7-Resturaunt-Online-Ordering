@@ -1,9 +1,9 @@
 # Group-7-Resturaunt-Online-Ordering
-Project Idea: Online ordering application for resturaunt with a variety of food options
+Project Idea: Online ordering application for resturaunt with a variety of food options.
 
 Context:
 
-This project will involve system analysis, design, implementation, and testing of an Online ordering application for a resturaunt with a variety of food options. This system will be used by resturaunt staff and customers. Main objective of this software system is to make the resturaunt more accessible by offering online ordering and payment and a way for users to track their order. Ideally, this system should be accessible through the web as well as using a mobile app. However, for the CSE 360 class project, we will be developing a GUI based desktop application using javaFX. The following section explains the system operation and expected functionality.
+This project will involve system analysis, design, implementation, and testing of an Online ordering application for a resturaunt with a variety of food options. This system will be used by resturaunt staff and customers. Main objective of this software system will be to make the resturaunt more accessible by offering online ordering and payment and a way for users to track their order. Ideally, this system should be accessible through the web as well as a mobile app. However, for the CSE 360 class project, we will be developing a GUI based desktop application using javaFX. The following section explains the system operation and expected functionality.
 
 System Operation:
 
