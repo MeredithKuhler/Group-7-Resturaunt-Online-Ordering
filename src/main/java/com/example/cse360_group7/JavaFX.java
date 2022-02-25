@@ -142,6 +142,7 @@ public void start(Stage stage) throws Exception
 	LI_user.setStyle(li_entryLab_css);
 
 	TextField LI_userField = new TextField();
+	LI_userField.setFont(BODY_FONT);
 	LI_userField.setStyle(li_entryField_css);
 
 	Label LI_pass = new Label("Password");
@@ -149,6 +150,7 @@ public void start(Stage stage) throws Exception
 	LI_pass.setStyle(li_entryLab_css);
 
 	TextField LI_passField = new TextField();
+	LI_passField.setFont(BODY_FONT);
 	LI_passField.setStyle(li_entryField_css);
 
 	// create account and sign in buttons
