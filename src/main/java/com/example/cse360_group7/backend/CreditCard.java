@@ -7,7 +7,7 @@ public class CreditCard{
   private String expirationDate;
   
   //CreditCard constructor
-  public CreditCard(String name, String cardNumber, String             securityCode, String expirationDate){
+  public CreditCard(String name, String cardNumber, String securityCode, String expirationDate){
 
     this.name = name;
     this.cardNumber = cardNumber;
