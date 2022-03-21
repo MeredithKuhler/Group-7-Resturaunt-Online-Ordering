@@ -6,7 +6,7 @@ public class Order{
   private Float waitTime;
 
   //class constructor
-  public Order(String customerName, MenuItem[] orderItems, Float    waitTime){
+  public Order(String customerName, MenuItem[] orderItems, Float waitTime){
 
     this.customerName = customerName;
     this.orderItems = orderItems;
