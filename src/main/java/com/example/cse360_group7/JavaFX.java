@@ -6,6 +6,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -183,7 +184,113 @@ public void start(Stage stage) throws Exception
 	LI_outerBox.setStyle(OUTER_BOX_CSS);
 	LI_outerBox.getChildren().addAll(LI_menu, LI_entry);
 
-	Scene signInScene = new Scene(LI_outerBox, 1600, 850);
+	Scene SignInScene = new Scene(LI_outerBox, 1600, 850);
+
+ //============================= Sign Up =============================//
+
+
+	//----- Main Header Menu -----//
+	ImageView SU_logo = new ImageView(logo);
+	SU_logo.setFitHeight(75);
+	SU_logo.setFitWidth(250);
+
+	HBox SU_logoBox = new HBox();
+	SU_logoBox.getChildren().addAll(SU_logo);
+	SU_logoBox.setStyle(NAV_LOGO_HBOX_CSS);
+
+	Button SU_orderNow = new Button("ORDER NOW");
+	SU_orderNow.setFont(TITLE_FONT);
+	SU_orderNow.setStyle(NAV_BUTTON_CSS);
+
+	Button SU_cart = new Button("CART");
+	SU_cart.setFont(TITLE_FONT);
+	SU_cart.setStyle(NAV_BUTTON_CSS);
+
+	Button SU_login = new Button("LOGIN");
+	SU_login.setFont(TITLE_FONT);
+	SU_login.setStyle(NAV_BUTTON_CSS);
+	SU_login.setTextFill(RED);
+
+	//Main Header Menu HBox
+	HBox SU_menu = new HBox();
+	SU_menu.getChildren().addAll(SU_logoBox, SU_orderNow, SU_cart, SU_login);
+	SU_menu.setStyle(NAV_BOX_CSS);
+
+
+
+	//----- User Entry Box -----//
+	String su_entryBox_css = "-fx-background-color: #FFFFFF;" +
+			"-fx-background-insets: 20 500 20 500;" +
+			"-fx-padding: 50 500 190 510";
+	String su_entryLab_css = "-fx-alignment: top-left;";
+	String su_entryField_css = "fx-padding: 20;" +
+			"-fx-min-height: 50;" +
+			"-fx-border-color: #878787;" +
+			"-fx-border-width: 2";
+	String su_accButton_css = "-fx-background-color: #FFFFFF;" +
+			"-fx-padding: 0 200 0 0;" +
+			"-fx-underline: true";
+	String su_signInButton = "-fx-background-color: #FFFFFF;" +
+			"-fx-underline: true;" +
+			"-fx-border-color: #878787;" +
+			"-fx-border-width: 2";
+
+	// title
+	Label SU_titleLab = new Label("SIGN UP");
+	SU_titleLab.setFont(TITLE_FONT);
+	VBox SU_title = new VBox();
+	SU_title.getChildren().addAll(SU_titleLab);
+	SU_title.setAlignment(Pos.TOP_CENTER);
+
+	// user and pass entry
+	Label SU_user = new Label("Username");
+	SU_user.setFont(SUB1_FONT);
+	SU_user.setStyle(li_entryLab_css);
+
+	TextField SU_userField = new TextField();
+	SU_userField.setFont(BODY_FONT);
+	SU_userField.setStyle(su_entryField_css);
+
+	Label SU_pass = new Label("Password");
+	SU_pass.setFont(SUB1_FONT);
+	SU_pass.setStyle(su_entryLab_css);
+
+	TextField SU_passField = new TextField();
+	SU_passField.setFont(BODY_FONT);
+	SU_passField.setStyle(su_entryField_css);
+
+	// create account and sign in buttons
+	Button SU_createAcc = new Button("Sign In");
+	SU_createAcc.setStyle(su_accButton_css);
+	SU_createAcc.setFont(BODY_FONT);
+
+	Button SU_signIn = new Button("Create Account");
+	SU_signIn.setStyle(su_signInButton);
+	SU_signIn.setFont(BODY_FONT);
+
+	HBox SU_accButtons = new HBox();
+	SU_accButtons.getChildren().addAll(SU_createAcc, SU_signIn);
+	SU_accButtons.setStyle("-fx-padding: 75 0 0 0");
+
+	//left aligned section VBox
+	VBox SU_userEntry = new VBox();
+	SU_userEntry.getChildren().addAll(SU_user, SU_userField, SU_pass, SU_passField, SU_accButtons);
+	SU_userEntry.setStyle("-fx-padding: 50");
+
+	//Whole Entry Box VBox
+	VBox SU_entry = new VBox();
+	SU_entry.setStyle(li_entryBox_css);
+	SU_entry.getChildren().addAll(SU_title, SU_userEntry);
+	SU_entry.setAlignment(Pos.TOP_CENTER);
+
+
+	//===== Creating the scene =====//
+	VBox SU_outerBox = new VBox();
+	SU_outerBox.setStyle(OUTER_BOX_CSS);
+	SU_outerBox.getChildren().addAll(SU_menu, SU_entry);
+
+	Scene SignUpScene = new Scene(SU_outerBox, 1600, 850);
+
 
 
 
@@ -192,7 +299,206 @@ public void start(Stage stage) throws Exception
 	// Section: Customer Pages
 	// Description: Pages that are specific to the customer view
 	//==============================================================================================================
-	// code starts here
+
+//============================= Account Info =============================//
+
+	//----- Main Header Menu -----//
+	ImageView C_AI_logo = new ImageView(logo);
+	C_AI_logo.setFitHeight(75);
+	C_AI_logo.setFitWidth(250);
+
+	HBox C_AI_logoBox = new HBox();
+	C_AI_logoBox.getChildren().addAll(C_AI_logo);
+	C_AI_logoBox.setStyle(NAV_LOGO_HBOX_CSS);
+
+	Button C_AI_orderNow = new Button("ORDER NOW");
+	C_AI_orderNow.setFont(TITLE_FONT);
+	C_AI_orderNow.setStyle(NAV_BUTTON_CSS);
+
+	Button C_AI_cart = new Button("CART");
+	C_AI_cart.setFont(TITLE_FONT);
+	C_AI_cart.setStyle(NAV_BUTTON_CSS);
+
+	Button C_AI_login = new Button("LOGIN");
+	C_AI_login.setFont(TITLE_FONT);
+	C_AI_login.setStyle(NAV_BUTTON_CSS);
+	C_AI_login.setTextFill(RED);
+
+	//Main Header Menu HBox
+	HBox C_AI_menu = new HBox();
+	C_AI_menu.getChildren().addAll(C_AI_logoBox, C_AI_orderNow, C_AI_cart, C_AI_login);
+	C_AI_menu.setStyle(NAV_BOX_CSS);
+
+
+	//===== Main Page Box =====//
+
+	Label C_AILabel = new Label("ACCOUNT INFO");
+	C_AILabel.setFont(TITLE_FONT);
+
+	Label C_AI_userLabel = new Label ("Username");
+	C_AI_userLabel.setFont(SUB1_FONT);
+	TextField C_AI_user = new TextField();
+	C_AI_user.setFont(BODY_FONT);
+
+	Label C_AI_visitsLabel = new Label("# of Visits");
+	C_AI_visitsLabel.setFont(SUB1_FONT);
+	TextField C_AI_visits = new TextField();
+	C_AI_visits.setFont(BODY_FONT);
+
+	Button C_AI_payment = new Button("Edit Payment Info");
+	C_AI_payment.setFont(BODY_FONT);
+	Button C_AI_orderStatus = new Button("Check Order Status");
+	C_AI_orderStatus.setFont(BODY_FONT);
+
+	Button C_AI_Logout = new Button("LOGOUT");
+	C_AI_Logout.setFont(SUB1_FONT);
+
+	HBox C_AI_buttonBox = new HBox();
+	C_AI_buttonBox.getChildren().addAll(C_AI_payment, C_AI_orderStatus);
+	VBox C_AI_userInfo = new VBox();
+	C_AI_userInfo.getChildren().addAll(C_AI_userLabel, C_AI_user, C_AI_visitsLabel, C_AI_visits);
+
+
+	//===== Creating the scene =====//
+	VBox C_AI_outerBox = new VBox();
+	C_AI_outerBox.setStyle(OUTER_BOX_CSS);
+	C_AI_outerBox.getChildren().addAll(C_AI_menu, C_AI_userInfo, C_AI_buttonBox, C_AI_Logout);
+
+	Scene CAccountInfoScene = new Scene(C_AI_outerBox, 1600, 850);
+
+
+
+
+//============================= Cart =============================//
+
+	//----- Main Header Menu -----//
+	ImageView C_CA_logo = new ImageView(logo);
+	C_CA_logo.setFitHeight(75);
+	C_CA_logo.setFitWidth(250);
+
+	HBox C_CA_logoBox = new HBox();
+	C_CA_logoBox.getChildren().addAll(C_CA_logo);
+	C_CA_logoBox.setStyle(NAV_LOGO_HBOX_CSS);
+
+	Button C_CA_orderNow = new Button("ORDER NOW");
+	C_CA_orderNow.setFont(TITLE_FONT);
+	C_CA_orderNow.setStyle(NAV_BUTTON_CSS);
+
+	Button C_CA_cart = new Button("CART");
+	C_CA_cart.setFont(TITLE_FONT);
+	C_CA_cart.setStyle(NAV_BUTTON_CSS);
+
+	Button C_CA_login = new Button("LOGIN");
+	C_CA_login.setFont(TITLE_FONT);
+	C_CA_login.setStyle(NAV_BUTTON_CSS);
+	C_CA_login.setTextFill(RED);
+
+	//Main Header Menu HBox
+	HBox C_CA_menu = new HBox();
+	C_CA_menu.getChildren().addAll(C_CA_logoBox, C_CA_orderNow, C_CA_cart, C_CA_login);
+	C_CA_menu.setStyle(NAV_BOX_CSS);
+
+
+	//===== Main Page Box =====//
+
+	Label C_CALabel = new Label("CART");
+	C_CALabel.setFont(TITLE_FONT);
+
+	VBox C_CA_cartBox = new VBox();
+
+	//----- empty cart -----//
+	Label C_CA_noCart = new Label("!");
+	C_CA_noCart.setFont(TITLE_FONT);
+
+	Label C_CA_noItems = new Label("No items are in your cart!");
+	C_CA_noItems.setFont(BODY_FONT);
+
+	Button C_CA_newOrder = new Button("Order Now");
+	C_CA_newOrder.setFont(BODY_FONT);
+
+	C_CA_cartBox.getChildren().addAll(C_CA_noCart, C_CA_noItems, C_CA_newOrder);
+
+	//----- cart with items -----//
+
+
+	//===== Creating the scene =====//
+	VBox C_CA_outerBox = new VBox();
+	C_CA_outerBox.setStyle(OUTER_BOX_CSS);
+	C_CA_outerBox.getChildren().addAll(C_CA_menu, C_CALabel, C_CA_cartBox);
+
+	Scene CCartScene = new Scene(C_CA_outerBox, 1600, 850);
+
+
+
+
+//============================= Customer Menu =============================//
+
+	//----- Main Header Menu -----//
+	ImageView C_CM_logo = new ImageView(logo);
+	C_CM_logo.setFitHeight(75);
+	C_CM_logo.setFitWidth(250);
+
+	HBox C_CM_logoBox = new HBox();
+	C_CM_logoBox.getChildren().addAll(C_CM_logo);
+	C_CM_logoBox.setStyle(NAV_LOGO_HBOX_CSS);
+
+	Button C_CM_orderNow = new Button("ORDER NOW");
+	C_CM_orderNow.setFont(TITLE_FONT);
+	C_CM_orderNow.setStyle(NAV_BUTTON_CSS);
+
+	Button C_CM_cart = new Button("CART");
+	C_CM_cart.setFont(TITLE_FONT);
+	C_CM_cart.setStyle(NAV_BUTTON_CSS);
+
+	Button C_CM_login = new Button("LOGIN");
+	C_CM_login.setFont(TITLE_FONT);
+	C_CM_login.setStyle(NAV_BUTTON_CSS);
+	C_CM_login.setTextFill(RED);
+
+	//Main Header Menu HBox
+	HBox C_CM_menu = new HBox();
+	C_CM_menu.getChildren().addAll(C_CM_logoBox, C_CM_orderNow, C_CM_cart, C_CM_login);
+	C_CM_menu.setStyle(NAV_BOX_CSS);
+
+
+	//===== Main Page Box =====//
+
+
+
+
+//============================= Customer Payment Info =============================//
+
+	//----- Main Header Menu -----//
+	ImageView C_PI_logo = new ImageView(logo);
+	C_PI_logo.setFitHeight(75);
+	C_PI_logo.setFitWidth(250);
+
+	HBox C_PI_logoBox = new HBox();
+	C_PI_logoBox.getChildren().addAll(C_PI_logo);
+	C_PI_logoBox.setStyle(NAV_LOGO_HBOX_CSS);
+
+	Button C_PI_orderNow = new Button("ORDER NOW");
+	C_PI_orderNow.setFont(TITLE_FONT);
+	C_PI_orderNow.setStyle(NAV_BUTTON_CSS);
+
+	Button C_PI_cart = new Button("CART");
+	C_PI_cart.setFont(TITLE_FONT);
+	C_PI_cart.setStyle(NAV_BUTTON_CSS);
+
+	Button C_PI_login = new Button("LOGIN");
+	C_PI_login.setFont(TITLE_FONT);
+	C_PI_login.setStyle(NAV_BUTTON_CSS);
+	C_PI_login.setTextFill(RED);
+
+	//Main Header Menu HBox
+	HBox C_PI_menu = new HBox();
+	C_PI_menu.getChildren().addAll(C_CM_logoBox, C_PI_orderNow, C_PI_cart, C_PI_login);
+	C_PI_menu.setStyle(NAV_BOX_CSS);
+
+
+	//===== Main Page Box =====//
+
+
 
 
 
@@ -201,7 +507,137 @@ public void start(Stage stage) throws Exception
 	// Section: Employee Pages
 	// Description: Pages that are specific to the employee view
 	//==============================================================================================================
-	// code starts here
+
+
+//============================= Employee Account =============================//
+
+	//----- Main Header Menu -----//
+	ImageView E_AI_logo = new ImageView(logo);
+	E_AI_logo.setFitHeight(75);
+	E_AI_logo.setFitWidth(250);
+
+	HBox E_AI_logoBox = new HBox();
+	C_CM_logoBox.getChildren().addAll(E_AI_logo);
+	C_CM_logoBox.setStyle(NAV_LOGO_HBOX_CSS);
+
+	Button E_AI_orderNow = new Button("ORDER NOW");
+	E_AI_orderNow.setFont(TITLE_FONT);
+	E_AI_orderNow.setStyle(NAV_BUTTON_CSS);
+
+	Button E_AI_cart = new Button("CART");
+	E_AI_cart.setFont(TITLE_FONT);
+	E_AI_cart.setStyle(NAV_BUTTON_CSS);
+
+	Button E_AI_login = new Button("LOGIN");
+	E_AI_login.setFont(TITLE_FONT);
+	E_AI_login.setStyle(NAV_BUTTON_CSS);
+	E_AI_login.setTextFill(RED);
+
+	//Main Header Menu HBox
+	HBox E_AI_menu = new HBox();
+	E_AI_menu.getChildren().addAll(E_AI_logoBox, E_AI_orderNow, E_AI_cart, E_AI_login);
+	E_AI_menu.setStyle(NAV_BOX_CSS);
+
+
+	//===== Main Page Box =====//
+	Label E_AILabel = new Label("ACCOUNT AND COUPONS");
+	E_AILabel.setFont(TITLE_FONT);
+
+	VBox E_AI_mainBox = new VBox();
+
+	Label E_AI_userLabel = new Label("Username");
+	E_AI_userLabel.setFont(SUB1_FONT);
+	Label E_AI_userBox = new Label();
+	E_AI_userBox.setFont(BODY_FONT);
+
+	Label E_AI_couponDist = new Label("Distribute Coupon");
+	E_AI_couponDist.setFont(SUB1_FONT);
+	ComboBox E_AI_couponField = new ComboBox();
+
+	Button E_AI_couponButton = new Button("Distribute");
+	E_AI_couponButton.setFont(BODY_FONT);
+
+	Button E_AI_logout = new Button("LOGOUT");
+	E_AI_logout.setFont(SUB1_FONT);
+
+	E_AI_mainBox.getChildren().addAll(E_AI_userLabel, E_AI_userBox, E_AI_couponDist, E_AI_couponField, E_AI_couponButton);
+
+	//===== Creating the scene =====//
+	VBox E_AI_outerBox = new VBox();
+	E_AI_outerBox.setStyle(OUTER_BOX_CSS);
+	E_AI_outerBox.getChildren().addAll(E_AI_menu, E_AILabel, E_AI_mainBox);
+
+	Scene EAccountScene = new Scene(E_AI_outerBox, 1600, 850);
+
+
+
+
+//============================= Employee Menu =============================//
+
+	//----- Main Header Menu -----//
+	ImageView E_EM_logo = new ImageView(logo);
+	E_EM_logo.setFitHeight(75);
+	E_EM_logo.setFitWidth(250);
+
+	HBox E_EM_logoBox = new HBox();
+	E_EM_logoBox.getChildren().addAll(E_EM_logo);
+	E_EM_logoBox.setStyle(NAV_LOGO_HBOX_CSS);
+
+	Button E_EM_orderNow = new Button("ORDER NOW");
+	E_EM_orderNow.setFont(TITLE_FONT);
+	E_EM_orderNow.setStyle(NAV_BUTTON_CSS);
+
+	Button E_EM_cart = new Button("CART");
+	E_EM_cart.setFont(TITLE_FONT);
+	E_EM_cart.setStyle(NAV_BUTTON_CSS);
+
+	Button E_EM_login = new Button("LOGIN");
+	E_EM_login.setFont(TITLE_FONT);
+	E_EM_login.setStyle(NAV_BUTTON_CSS);
+	E_EM_login.setTextFill(RED);
+
+	//Main Header Menu HBox
+	HBox E_EM_menu = new HBox();
+	E_EM_menu.getChildren().addAll(E_EM_logoBox, E_EM_orderNow, E_EM_cart, E_EM_login);
+	E_EM_menu.setStyle(NAV_BOX_CSS);
+
+
+	//===== Main Page Box =====//
+
+
+
+
+//============================= Employee Distribute Coupon  =============================//
+
+	//----- Main Header Menu -----//
+	ImageView E_DC_logo = new ImageView(logo);
+	E_DC_logo.setFitHeight(75);
+	E_DC_logo.setFitWidth(250);
+
+	HBox E_DC_logoBox = new HBox();
+	E_DC_logoBox.getChildren().addAll(E_DC_logo);
+	E_DC_logoBox.setStyle(NAV_LOGO_HBOX_CSS);
+
+	Button E_DC_orderNow = new Button("ORDER NOW");
+	E_DC_orderNow.setFont(TITLE_FONT);
+	E_DC_orderNow.setStyle(NAV_BUTTON_CSS);
+
+	Button E_DC_cart = new Button("CART");
+	E_DC_cart.setFont(TITLE_FONT);
+	E_DC_cart.setStyle(NAV_BUTTON_CSS);
+
+	Button E_DC_login = new Button("LOGIN");
+	E_DC_login.setFont(TITLE_FONT);
+	E_DC_login.setStyle(NAV_BUTTON_CSS);
+	E_DC_login.setTextFill(RED);
+
+	//Main Header Menu HBox
+	HBox E_DC_menu = new HBox();
+	E_DC_menu.getChildren().addAll(E_DC_logoBox, E_DC_orderNow, E_DC_cart, E_DC_login);
+	E_DC_menu.setStyle(NAV_BOX_CSS);
+
+
+	//===== Main Page Box =====//
 
 
 
@@ -211,7 +647,17 @@ public void start(Stage stage) throws Exception
 	// Description: Sets page displays (opens and closes based on event handlers)
 	//==============================================================================================================
 	stage.show();
-	stage.setScene(signInScene);
+	//stage.setScene(SignInScene);
+	stage.setScene(SignUpScene);
+
+	//stage.setScene(CAccountInfoScene);
+	//stage.setScene(CCartScene);
+	//stage.setScene(CMenu); -
+	//stage.setScene(CPaymentInfo); -
+
+	//stage.setScene(EMenu); -
+	//stage.setScene(EAccountScene);
+	//stage.setScene(ECoupon); -
 
 }
 
