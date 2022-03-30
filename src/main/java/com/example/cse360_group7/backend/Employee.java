@@ -5,4 +5,8 @@ public class Employee extends Account{
 		this.username = username;
 		this.password = password;
 	}
+	
+	public void giveCoupon(Customer customer, Coupon coupon) {
+		customer.addCoupons(coupon);
+	}
 }

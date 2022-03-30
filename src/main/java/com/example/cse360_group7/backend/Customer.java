@@ -1,19 +1,27 @@
+import java.util.ArrayList;
+
 public class Customer extends Account{
 
   //private attributes
-  private MenuItem menuItems[];
+  private ArrayList<MenuItem> menuItems = new ArrayList<MenuItem>();
   private CreditCard creditCard;
-  private int cartPrice;
-  private Coupon coupons[];
-  private int phoneNumber;
-
+  private Float cartPrice;
+  private ArrayList<Coupon> coupons = new ArrayList<Coupon>();
+  private String email;
+  
+  //constructor
+  public Customer(String username, String password) {
+	  this.username = username;
+	  this.password = password;
+  }
+  
   //getters
-
+  
   public MenuItem addMenuItem()
   {
-    MenuItem menuItem;
+    MenuItem menuItem = new MenuItem("test", 100, 1203.00);
 
-  return menuItem;
+    return menuItem;
   }
   
   public void removeMenuItem(MenuItem menuItem){
@@ -24,27 +32,28 @@ public class Customer extends Account{
   
   public Float useCoupon(Coupon coupon, Float price){
 
-
-    return price;
+	coupons.remove(coupon);
+    return price*coupon.getCouponDiscount();
     
   }
 
-  public MenuItem[] getCart(){
+//  public MenuItem[] getCart(){
 
-    return menuItems;
-  }
+//  }
 
   public CreditCard getCreditCard(){
 
     return creditCard;
   }
-
-  public Coupon[] getCoupons(){
-
-    return coupons;
+  
+  public void addCoupons(Coupon coupon) {
+	  coupons.add(coupon);
   }
-
-  public int getPhoneNumber(){
+  
+  public void getCoupons() {
+	  System.out.println(coupons);
+  }
+  public String getPhoneNumber(){
 
     return phoneNumber;
   }

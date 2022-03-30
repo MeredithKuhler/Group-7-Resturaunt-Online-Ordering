@@ -1,8 +1,8 @@
 
 public class MenuItem {
-	protected String itemName;
-	protected int calories;
-	protected Double price;
+	private String itemName;
+	private int calories;
+	private Double price;
 	//TODO: Something image related?
 	
 	//constructors - no default

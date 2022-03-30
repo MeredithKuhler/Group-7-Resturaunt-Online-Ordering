@@ -13,6 +13,8 @@ public class CreditCard{
     this.cardNumber = cardNumber;
     this.securityCode = securityCode;
     this.expirationDate = expirationDate;
+
+    // APPEND ALL THE STRTINGS INTO THE TEXT FILE USING WHILE LOOP LOGIC
     
   }
   

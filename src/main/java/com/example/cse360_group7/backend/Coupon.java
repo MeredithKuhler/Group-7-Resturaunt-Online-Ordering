@@ -1,16 +1,16 @@
 
 public class Coupon {
-	protected String couponCode;
+	private String couponCode;
 	//percentage listed as decimal
-	protected Double couponDiscount;
+	private Float couponDiscount;
 	
 	//constructor
 	public Coupon() {
 		this.couponCode = "00000";
-		this.couponDiscount = 0.10;
+		this.couponDiscount = 0.10f;
 	}
 	
-	public Coupon(String couponCode, Double couponDiscount) {
+	public Coupon(String couponCode, Float couponDiscount) {
 		this.couponCode = couponCode;
 		this.couponDiscount = couponDiscount;
 	}
@@ -19,7 +19,7 @@ public class Coupon {
 	public String getCouponCode(){
 		return couponCode;
 	}
-	public Double getCouponDiscount(){
+	public Float getCouponDiscount(){
 		return couponDiscount;
 	}
 	
@@ -27,8 +27,13 @@ public class Coupon {
 	public void setCouponCode(String couponCode) {
 		this.couponCode = couponCode;
 	}
-	public void setCouponDiscount(Double couponDiscount) {
+	public void setCouponDiscount(Float couponDiscount) {
 		this.couponDiscount = couponDiscount;
+	}
+	
+	public String toString() {
+		return("Coupon code: " + this.getCouponCode() +
+				" Coupon Discount: " + this.getCouponDiscount());
 	}
 	
 }
