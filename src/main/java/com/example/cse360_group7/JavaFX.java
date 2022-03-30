@@ -78,7 +78,7 @@ public void start(Stage stage) throws Exception
 
 
 	//----- Global Images -----//
-	Image logo = new Image("/logo.png"); //width = 75, height = 250
+	Image logo = new Image("/logo.png"); //width = 75, height = 196
 
 
 
@@ -87,7 +87,7 @@ public void start(Stage stage) throws Exception
 	//----- Main Header Menu -----//
 	ImageView LI_logo = new ImageView(logo);
 	LI_logo.setFitHeight(75);
-	LI_logo.setFitWidth(250);
+	LI_logo.setFitWidth(196);
 
 	HBox LI_logoBox = new HBox();
 	LI_logoBox.getChildren().addAll(LI_logo);
@@ -192,7 +192,7 @@ public void start(Stage stage) throws Exception
 	//----- Main Header Menu -----//
 	ImageView SU_logo = new ImageView(logo);
 	SU_logo.setFitHeight(75);
-	SU_logo.setFitWidth(250);
+	SU_logo.setFitWidth(196);
 
 	HBox SU_logoBox = new HBox();
 	SU_logoBox.getChildren().addAll(SU_logo);
@@ -305,7 +305,7 @@ public void start(Stage stage) throws Exception
 	//----- Main Header Menu -----//
 	ImageView C_AI_logo = new ImageView(logo);
 	C_AI_logo.setFitHeight(75);
-	C_AI_logo.setFitWidth(250);
+	C_AI_logo.setFitWidth(196);
 
 	HBox C_AI_logoBox = new HBox();
 	C_AI_logoBox.getChildren().addAll(C_AI_logo);
@@ -374,7 +374,7 @@ public void start(Stage stage) throws Exception
 	//----- Main Header Menu -----//
 	ImageView C_CA_logo = new ImageView(logo);
 	C_CA_logo.setFitHeight(75);
-	C_CA_logo.setFitWidth(250);
+	C_CA_logo.setFitWidth(196);
 
 	HBox C_CA_logoBox = new HBox();
 	C_CA_logoBox.getChildren().addAll(C_CA_logo);
@@ -436,7 +436,7 @@ public void start(Stage stage) throws Exception
 	//----- Main Header Menu -----//
 	ImageView C_CM_logo = new ImageView(logo);
 	C_CM_logo.setFitHeight(75);
-	C_CM_logo.setFitWidth(250);
+	C_CM_logo.setFitWidth(196);
 
 	HBox C_CM_logoBox = new HBox();
 	C_CM_logoBox.getChildren().addAll(C_CM_logo);
@@ -471,7 +471,7 @@ public void start(Stage stage) throws Exception
 	//----- Main Header Menu -----//
 	ImageView C_PI_logo = new ImageView(logo);
 	C_PI_logo.setFitHeight(75);
-	C_PI_logo.setFitWidth(250);
+	C_PI_logo.setFitWidth(196);
 
 	HBox C_PI_logoBox = new HBox();
 	C_PI_logoBox.getChildren().addAll(C_PI_logo);
@@ -514,7 +514,7 @@ public void start(Stage stage) throws Exception
 	//----- Main Header Menu -----//
 	ImageView E_AI_logo = new ImageView(logo);
 	E_AI_logo.setFitHeight(75);
-	E_AI_logo.setFitWidth(250);
+	E_AI_logo.setFitWidth(196);
 
 	HBox E_AI_logoBox = new HBox();
 	C_CM_logoBox.getChildren().addAll(E_AI_logo);
@@ -547,20 +547,34 @@ public void start(Stage stage) throws Exception
 
 	Label E_AI_userLabel = new Label("Username");
 	E_AI_userLabel.setFont(SUB1_FONT);
-	Label E_AI_userBox = new Label();
+	Label E_AI_userBox = new Label("Username goes here");
 	E_AI_userBox.setFont(BODY_FONT);
+
+	VBox E_AI_coupon = new VBox();
 
 	Label E_AI_couponDist = new Label("Distribute Coupon");
 	E_AI_couponDist.setFont(SUB1_FONT);
 	ComboBox E_AI_couponField = new ComboBox();
 
+	Label E_AI_codeLabel = new Label("Coupon Code");
+	E_AI_codeLabel.setFont(SUB1_FONT);
+	TextField E_AI_code = new TextField();
+	E_AI_code.setFont(BODY_FONT);
+
+	Label E_AI_discLabel = new Label("Coupon Code");
+	E_AI_discLabel.setFont(SUB1_FONT);
+	TextField E_AI_disc = new TextField();
+	E_AI_disc.setFont(BODY_FONT);
+
 	Button E_AI_couponButton = new Button("Distribute");
 	E_AI_couponButton.setFont(BODY_FONT);
+
+	E_AI_coupon.getChildren().addAll(E_AI_couponDist, E_AI_couponField, E_AI_codeLabel, E_AI_code, E_AI_discLabel, E_AI_disc, E_AI_couponButton);
 
 	Button E_AI_logout = new Button("LOGOUT");
 	E_AI_logout.setFont(SUB1_FONT);
 
-	E_AI_mainBox.getChildren().addAll(E_AI_userLabel, E_AI_userBox, E_AI_couponDist, E_AI_couponField, E_AI_couponButton);
+	E_AI_mainBox.getChildren().addAll(E_AI_userLabel, E_AI_userBox, E_AI_coupon, E_AI_logout);
 
 	//===== Creating the scene =====//
 	VBox E_AI_outerBox = new VBox();
@@ -577,7 +591,7 @@ public void start(Stage stage) throws Exception
 	//----- Main Header Menu -----//
 	ImageView E_EM_logo = new ImageView(logo);
 	E_EM_logo.setFitHeight(75);
-	E_EM_logo.setFitWidth(250);
+	E_EM_logo.setFitWidth(196);
 
 	HBox E_EM_logoBox = new HBox();
 	E_EM_logoBox.getChildren().addAll(E_EM_logo);
@@ -607,48 +621,14 @@ public void start(Stage stage) throws Exception
 
 
 
-//============================= Employee Distribute Coupon  =============================//
-
-	//----- Main Header Menu -----//
-	ImageView E_DC_logo = new ImageView(logo);
-	E_DC_logo.setFitHeight(75);
-	E_DC_logo.setFitWidth(250);
-
-	HBox E_DC_logoBox = new HBox();
-	E_DC_logoBox.getChildren().addAll(E_DC_logo);
-	E_DC_logoBox.setStyle(NAV_LOGO_HBOX_CSS);
-
-	Button E_DC_orderNow = new Button("ORDER NOW");
-	E_DC_orderNow.setFont(TITLE_FONT);
-	E_DC_orderNow.setStyle(NAV_BUTTON_CSS);
-
-	Button E_DC_cart = new Button("CART");
-	E_DC_cart.setFont(TITLE_FONT);
-	E_DC_cart.setStyle(NAV_BUTTON_CSS);
-
-	Button E_DC_login = new Button("LOGIN");
-	E_DC_login.setFont(TITLE_FONT);
-	E_DC_login.setStyle(NAV_BUTTON_CSS);
-	E_DC_login.setTextFill(RED);
-
-	//Main Header Menu HBox
-	HBox E_DC_menu = new HBox();
-	E_DC_menu.getChildren().addAll(E_DC_logoBox, E_DC_orderNow, E_DC_cart, E_DC_login);
-	E_DC_menu.setStyle(NAV_BOX_CSS);
-
-
-	//===== Main Page Box =====//
-
-
-
 
 	//==============================================================================================================
 	// Section: GUI Management
 	// Description: Sets page displays (opens and closes based on event handlers)
 	//==============================================================================================================
 	stage.show();
-	//stage.setScene(SignInScene);
-	stage.setScene(SignUpScene);
+	stage.setScene(SignInScene);
+	//stage.setScene(SignUpScene);
 
 	//stage.setScene(CAccountInfoScene);
 	//stage.setScene(CCartScene);
@@ -657,7 +637,6 @@ public void start(Stage stage) throws Exception
 
 	//stage.setScene(EMenu); -
 	//stage.setScene(EAccountScene);
-	//stage.setScene(ECoupon); -
 
 }
 
