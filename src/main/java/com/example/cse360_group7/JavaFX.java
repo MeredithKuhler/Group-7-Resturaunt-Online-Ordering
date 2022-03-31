@@ -164,6 +164,9 @@ public void start(Stage stage) throws Exception
 	TextField LI_passField = new TextField();
 	LI_passField.setFont(BODY_FONT);
 	LI_passField.setStyle(li_entryField_css);
+	
+	Label LI_error = new Label("");
+	LI_error.setTextFill(RED);
 
 	// create account and sign in buttons
 	Button LI_createAcc = new Button("Create Account");
@@ -180,7 +183,7 @@ public void start(Stage stage) throws Exception
 
 	//left aligned section VBox
 	VBox LI_userEntry = new VBox();
-	LI_userEntry.getChildren().addAll(LI_user, LI_userField, LI_pass, LI_passField, LI_accButtons);
+	LI_userEntry.getChildren().addAll(LI_user, LI_userField, LI_pass, LI_passField, LI_error, LI_accButtons);
 	LI_userEntry.setStyle("-fx-padding: 50");
 
 	//Whole Entry Box VBox
