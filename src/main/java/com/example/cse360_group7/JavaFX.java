@@ -651,7 +651,7 @@ public void start(Stage stage) throws Exception
 	 * Might not be able to make multiple accounts at once
 	*/
 	//If things are broken make sure you have the accountinfo.txt file. Also make sure the directory is set up correctly.
-	LI_signIn.setOnMouseClicked((new EventHandler<javafx.scene.input.MouseEvent>() {
+	LI_createAcc.setOnMouseClicked((new EventHandler<javafx.scene.input.MouseEvent>() {
 		//Reading from text file
 		String currentline = "";
 		Scanner findName = new Scanner(new FileReader(".\\src\\accountinfo.txt"));
@@ -670,7 +670,7 @@ public void start(Stage stage) throws Exception
             else {
             	while(findName.hasNextLine()){
                     currentline = findName.nextLine();
-                    if(currentline.equals(LI_userField.getText())){
+                    if(currentline.equals("username: " + LI_userField.getText())){
                         System.out.println("Error: Username already exists!");
                         usernameExists = true;
                         break;
@@ -686,8 +686,8 @@ public void start(Stage stage) throws Exception
             		System.out.println("Pass");
             		LI_error.setText("");
             		out.append("Customer\n");
-            		out.append(LI_userField.getText() +"\n");
-            		out.append(LI_passField.getText() + "\n");
+            		out.append("username: " + LI_userField.getText() +"\n");
+            		out.append("password: " + LI_passField.getText() + "\n");
             		out.close();
             		stage.setScene(CCartScene);
             	}
