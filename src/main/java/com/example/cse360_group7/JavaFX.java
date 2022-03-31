@@ -701,6 +701,43 @@ public void start(Stage stage) throws Exception
         }
 	}));
 	
+	//Login
+	LI_signIn.setOnMouseClicked((new EventHandler<javafx.scene.input.MouseEvent>() {
+		String currentline = "";
+		Scanner findName = new Scanner(new FileReader(".\\src\\accountinfo.txt"));
+		Boolean userExists = true;
+		public void handle(javafx.scene.input.MouseEvent e) {
+            if(LI_userField.getText() == "" || LI_passField.getText() == "") {
+                System.out.println("Error: Missing username/password");
+                LI_error.setText("Error: Missing username/password");
+            }
+            else {
+            	while(findName.hasNextLine()){
+                    currentline = findName.nextLine();
+                    if(currentline.equals("username: " + LI_userField.getText())){
+                    	if(findName.nextLine().equals("password: " + LI_passField.getText())) {
+                    		userExists = true;
+                    		break;
+                    	}
+                    	else {
+                    		userExists = false;
+                    	}
+                    }
+                    else{
+                        userExists = false;
+                    }
+                }
+            	if(userExists) {
+            		System.out.println("Pass");
+            	}
+            	else {
+            		LI_error.setText("Error: incorrect username/password");
+            	}
+            }
+            currentline = "";
+		}
+	}));
+	
 	
 	stage.show();
 	stage.setScene(SignInScene);
