@@ -18,6 +18,16 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.text.AttributedCharacterIterator;
+
+//Imports for reading/writing
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintWriter;
 import java.util.Scanner;
 
 public class JavaFX extends Application
@@ -626,6 +636,68 @@ public void start(Stage stage) throws Exception
 	// Section: GUI Management
 	// Description: Sets page displays (opens and closes based on event handlers)
 	//==============================================================================================================
+	
+	//event handlers
+	//login event
+	/*Future error handling:
+	 * Spaces in name
+	 * Char limit
+	 * Illegal chars
+	 * Make the file reader look nicer
+	 * Might not be able to make multiple accounts at once
+	*/
+	//If things are broken make sure you have the accountinfo.txt file. Also make sure the directory is set up correctly.
+	LI_signIn.setOnMouseClicked((new EventHandler<javafx.scene.input.MouseEvent>() {
+		//Reading from text file
+		String currentline = "";
+		Scanner findName = new Scanner(new FileReader(".\\src\\accountinfo.txt"));
+		Boolean usernameExists = true;
+		
+        //Writing to text file
+        FileWriter fw = new FileWriter(".\\src\\accountinfo.txt", true);
+        BufferedWriter bw = new BufferedWriter(fw);
+        PrintWriter out = new PrintWriter(bw);
+        @Override
+        public void handle(javafx.scene.input.MouseEvent e) {
+            if(LI_userField.getText() == "" || LI_passField.getText() == "") {
+                System.out.println("Error: Missing username/password");
+                LI_error.setText("Error: Missing username/password");
+            }
+            else {
+            	while(findName.hasNextLine()){
+                    currentline = findName.nextLine();
+                    if(currentline.equals(LI_userField.getText())){
+                        System.out.println("Error: Username already exists!");
+                        usernameExists = true;
+                        break;
+                    }
+                    else{
+                        usernameExists = false;
+                    }
+                }
+            	if(usernameExists) {
+            		LI_error.setText("Username already exists!");
+            	}
+            	else {
+            		System.out.println("Pass");
+            		LI_error.setText("");
+            		out.append("Customer\n");
+            		out.append(LI_userField.getText() +"\n");
+            		out.append(LI_passField.getText() + "\n");
+            		out.close();
+            		stage.setScene(CCartScene);
+            	}
+            }
+            try {
+				findName = new Scanner(new FileReader(".\\src\\accountinfo.txt"));
+			} catch (FileNotFoundException e1) {
+				System.out.println("Unexpected error when reading file");
+			}
+            currentline = "";
+        }
+	}));
+	
+	
 	stage.show();
 	stage.setScene(SignInScene);
 	//stage.setScene(SignUpScene);
