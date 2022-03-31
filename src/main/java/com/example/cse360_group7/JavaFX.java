@@ -714,14 +714,9 @@ public void start(Stage stage) throws Exception
             else {
             	while(findName.hasNextLine()){
                     currentline = findName.nextLine();
-                    if(currentline.equals("username: " + LI_userField.getText())){
-                    	if(findName.nextLine().equals("password: " + LI_passField.getText())) {
-                    		userExists = true;
-                    		break;
-                    	}
-                    	else {
-                    		userExists = false;
-                    	}
+                    if(currentline.equals("username: " + LI_userField.getText()) && findName.nextLine().equals("password: " + LI_passField.getText())){
+                    	userExists = true;
+                    	break;
                     }
                     else{
                         userExists = false;
@@ -729,6 +724,7 @@ public void start(Stage stage) throws Exception
                 }
             	if(userExists) {
             		System.out.println("Pass");
+            		LI_error.setText("");
             	}
             	else {
             		LI_error.setText("Error: incorrect username/password");
