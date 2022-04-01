@@ -95,6 +95,7 @@ public void start(Stage stage) throws Exception
 	Image logo = new Image(".\\logo.png"); //width = 75, height = 196
 	
 	//----- Global Vars -----//
+	final String TEXTFILE = ".\\src\\accountinfo.txt";
 	Customer currentCustomer = new Customer("guest", "guest");
 	Employee admin = new Employee("admin", "admin");
 	
@@ -677,11 +678,11 @@ public void start(Stage stage) throws Exception
 	LI_createAcc.setOnMouseClicked((new EventHandler<javafx.scene.input.MouseEvent>() {
 		//Reading from text file
 		String currentline = "";
-		Scanner findName = new Scanner(new FileReader(".\\src\\accountinfo.txt"));
+		Scanner findName = new Scanner(new FileReader(TEXTFILE));
 		Boolean usernameExists = true;
 		
         //Writing to text file
-        FileWriter fw = new FileWriter(".\\src\\accountinfo.txt", true);
+        FileWriter fw = new FileWriter(TEXTFILE, true);
         BufferedWriter bw = new BufferedWriter(fw);
         PrintWriter out = new PrintWriter(bw);
         @Override
@@ -721,7 +722,7 @@ public void start(Stage stage) throws Exception
             	}
             }
             try {
-				findName = new Scanner(new FileReader(".\\src\\accountinfo.txt"));
+				findName = new Scanner(new FileReader(TEXTFILE));
 			} catch (FileNotFoundException e1) {
 				System.out.println("Unexpected error when reading file. CreateAccount");
 			}
@@ -732,11 +733,11 @@ public void start(Stage stage) throws Exception
 	//Login
 	LI_signIn.setOnMouseClicked((new EventHandler<javafx.scene.input.MouseEvent>() {
 		String currentline = "";
-		Scanner findName = new Scanner(new FileReader(".\\src\\accountinfo.txt"));
+		Scanner findName = new Scanner(new FileReader(TEXTFILE));
 		Boolean userExists = true;
 		public void handle(javafx.scene.input.MouseEvent e) {
 			try {
-				findName = new Scanner(new FileReader(".\\src\\accountinfo.txt"));
+				findName = new Scanner(new FileReader(TEXTFILE));
 			} catch (FileNotFoundException e1) {
 				System.out.println("Unexpected error when reading file. Login");
 			}
