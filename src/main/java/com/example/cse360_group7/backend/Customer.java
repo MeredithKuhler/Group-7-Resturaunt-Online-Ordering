@@ -1,3 +1,5 @@
+package application;
+
 import java.util.ArrayList;
 
 public class Customer extends Account{
@@ -15,7 +17,14 @@ public class Customer extends Account{
 	  this.password = password;
   }
   
-  //getters
+  //setter
+  public void setUsername(String username) {
+	  this.username = username;
+  }
+  
+  public void setPassword(String password) {
+	  this.password = password;
+  }
   
   public MenuItem addMenuItem()
   {
@@ -53,8 +62,8 @@ public class Customer extends Account{
   public void getCoupons() {
 	  System.out.println(coupons);
   }
-  public String getPhoneNumber(){
+  public String getEmail(){
 
-    return phoneNumber;
+    return email;
   }
 }

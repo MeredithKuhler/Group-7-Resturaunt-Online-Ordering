@@ -1,3 +1,4 @@
+package application;
 
 public class MenuItem {
 	private String itemName;
