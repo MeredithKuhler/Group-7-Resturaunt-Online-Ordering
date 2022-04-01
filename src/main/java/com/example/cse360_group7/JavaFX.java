@@ -3,6 +3,7 @@ package com.example.cse360_group7;
 //import com.sun.javafx.stage.EmbeddedWindow;
 import javafx.event.EventHandler;
 import javafx.application.Application;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -29,6 +30,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class JavaFX extends Application
@@ -89,10 +92,12 @@ public void start(Stage stage) throws Exception
 
 
 	//----- Global Images -----//
-	Image logo = new Image("/logo.png"); //width = 75, height = 196
-
-
-
+	Image logo = new Image(".\\logo.png"); //width = 75, height = 196
+	
+	//----- Global Vars -----//
+	Customer currentCustomer = new Customer("guest", "guest");
+	Employee admin = new Employee("admin", "admin");
+	
  //============================= Log In =============================//
 
 	//----- Main Header Menu -----//
@@ -333,14 +338,14 @@ public void start(Stage stage) throws Exception
 	C_AI_cart.setFont(TITLE_FONT);
 	C_AI_cart.setStyle(NAV_BUTTON_CSS);
 
-	Button C_AI_login = new Button("LOGIN");
-	C_AI_login.setFont(TITLE_FONT);
-	C_AI_login.setStyle(NAV_BUTTON_CSS);
-	C_AI_login.setTextFill(RED);
+	Button C_AI_account = new Button("ACCOUNT");
+	C_AI_account.setFont(TITLE_FONT);
+	C_AI_account.setStyle(NAV_BUTTON_CSS);
+	C_AI_account.setTextFill(RED);
 
 	//Main Header Menu HBox
 	HBox C_AI_menu = new HBox();
-	C_AI_menu.getChildren().addAll(C_AI_logoBox, C_AI_orderNow, C_AI_cart, C_AI_login);
+	C_AI_menu.getChildren().addAll(C_AI_logoBox, C_AI_orderNow, C_AI_cart, C_AI_account);
 	C_AI_menu.setStyle(NAV_BOX_CSS);
 
 
@@ -542,14 +547,14 @@ public void start(Stage stage) throws Exception
 	E_AI_cart.setFont(TITLE_FONT);
 	E_AI_cart.setStyle(NAV_BUTTON_CSS);
 
-	Button E_AI_login = new Button("LOGIN");
-	E_AI_login.setFont(TITLE_FONT);
-	E_AI_login.setStyle(NAV_BUTTON_CSS);
-	E_AI_login.setTextFill(RED);
+	Button E_AI_account = new Button("ACCOUNT");
+	E_AI_account.setFont(TITLE_FONT);
+	E_AI_account.setStyle(NAV_BUTTON_CSS);
+	E_AI_account.setTextFill(RED);
 
 	//Main Header Menu HBox
 	HBox E_AI_menu = new HBox();
-	E_AI_menu.getChildren().addAll(E_AI_logoBox, E_AI_orderNow, E_AI_cart, E_AI_login);
+	E_AI_menu.getChildren().addAll(E_AI_logoBox, E_AI_orderNow, E_AI_cart, E_AI_account);
 	E_AI_menu.setStyle(NAV_BOX_CSS);
 
 
@@ -559,17 +564,34 @@ public void start(Stage stage) throws Exception
 
 	VBox E_AI_mainBox = new VBox();
 
+	ArrayList<Customer> customers = new ArrayList<Customer>();
+	customers.add(new Customer("Steve", "Steve"));
+	customers.add(new Customer("James", "James"));
+
 	Label E_AI_userLabel = new Label("Username");
 	E_AI_userLabel.setFont(SUB1_FONT);
-	Label E_AI_userBox = new Label("Username goes here");
-	E_AI_userBox.setFont(BODY_FONT);
+	ComboBox E_AI_userBox = new ComboBox();
 
+	ObservableList<String> customerList = E_AI_userBox.getItems();
+	for(int i = 0; i < customers.size(); i++) {
+		customerList.add(customers.get(i).getUsername());
+	}
+	
 	VBox E_AI_coupon = new VBox();
-
+	
+	ArrayList<Coupon> coupons = new ArrayList<Coupon>();
+	coupons.add(new Coupon("a43wa", .15f));
+	coupons.add(new Coupon("4b54c", .5f));
+	
 	Label E_AI_couponDist = new Label("Distribute Coupon");
 	E_AI_couponDist.setFont(SUB1_FONT);
 	ComboBox E_AI_couponField = new ComboBox();
-
+	
+	ObservableList<String> couponList = E_AI_couponField.getItems();
+	for(int i = 0; i < coupons.size(); i++) {
+		couponList.add(coupons.get(i).getCouponCode() + "\t" + String.format("%.2f",coupons.get(i).getCouponDiscount()*100) + "% off");
+	}
+	
 	Label E_AI_codeLabel = new Label("Coupon Code");
 	E_AI_codeLabel.setFont(SUB1_FONT);
 	TextField E_AI_code = new TextField();
@@ -651,6 +673,7 @@ public void start(Stage stage) throws Exception
 	 * Might not be able to make multiple accounts at once
 	*/
 	//If things are broken make sure you have the accountinfo.txt file. Also make sure the directory is set up correctly.
+		
 	LI_createAcc.setOnMouseClicked((new EventHandler<javafx.scene.input.MouseEvent>() {
 		//Reading from text file
 		String currentline = "";
@@ -685,17 +708,22 @@ public void start(Stage stage) throws Exception
             	else {
             		System.out.println("Pass");
             		LI_error.setText("");
-            		out.append("Customer\n");
             		out.append("username: " + LI_userField.getText() +"\n");
             		out.append("password: " + LI_passField.getText() + "\n");
+            		out.append("accounttype: customer\n");
+            		currentCustomer.setUsername(LI_userField.getText());
+            		currentCustomer.setPassword(LI_passField.getText());
+            		C_AI_user.setText(currentCustomer.getUsername());
+            		LI_userField.setText("");
+            		LI_passField.setText("");
             		out.close();
-            		stage.setScene(CCartScene);
+            		stage.setScene(CAccountInfoScene);
             	}
             }
             try {
 				findName = new Scanner(new FileReader(".\\src\\accountinfo.txt"));
 			} catch (FileNotFoundException e1) {
-				System.out.println("Unexpected error when reading file");
+				System.out.println("Unexpected error when reading file. CreateAccount");
 			}
             currentline = "";
         }
@@ -707,6 +735,11 @@ public void start(Stage stage) throws Exception
 		Scanner findName = new Scanner(new FileReader(".\\src\\accountinfo.txt"));
 		Boolean userExists = true;
 		public void handle(javafx.scene.input.MouseEvent e) {
+			try {
+				findName = new Scanner(new FileReader(".\\src\\accountinfo.txt"));
+			} catch (FileNotFoundException e1) {
+				System.out.println("Unexpected error when reading file. Login");
+			}
             if(LI_userField.getText() == "" || LI_passField.getText() == "") {
                 System.out.println("Error: Missing username/password");
                 LI_error.setText("Error: Missing username/password");
@@ -724,6 +757,16 @@ public void start(Stage stage) throws Exception
                 }
             	if(userExists) {
             		System.out.println("Pass");
+            		if(findName.nextLine().equals("accounttype: customer")) {
+                		currentCustomer.setUsername(LI_userField.getText());
+                		currentCustomer.setPassword(LI_passField.getText());
+                		LI_userField.setText("");
+                		LI_passField.setText("");
+                		C_AI_user.setText(currentCustomer.getUsername());
+            			stage.setScene(CAccountInfoScene);
+            		}
+            		else
+            			stage.setScene(EAccountScene);
             		LI_error.setText("");
             	}
             	else {
@@ -734,6 +777,25 @@ public void start(Stage stage) throws Exception
 		}
 	}));
 	
+	//logout
+	C_AI_Logout.setOnMouseClicked((new EventHandler<javafx.scene.input.MouseEvent>() {
+		public void handle(javafx.scene.input.MouseEvent e) {
+			stage.setScene(SignInScene);
+			currentCustomer.setUsername("Guest");
+			currentCustomer.setPassword("Guest");
+		}
+	}));
+	
+	E_AI_logout.setOnMouseClicked((new EventHandler<javafx.scene.input.MouseEvent>() {
+		public void handle(javafx.scene.input.MouseEvent e) {
+			stage.setScene(SignInScene);
+			currentCustomer.setUsername("Guest");
+			currentCustomer.setPassword("Guest");
+    		LI_userField.setText("");
+    		LI_passField.setText("");
+		}
+	}));
+	//coupon distribution
 	
 	stage.show();
 	stage.setScene(SignInScene);
