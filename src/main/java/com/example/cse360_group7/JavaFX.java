@@ -992,6 +992,10 @@ public void start(Stage stage) throws Exception
 				removedItem = (String) C_CA_removeItemBox.getValue();
 				currentCustomer.removeMenuItem(removedItem);
 				System.out.println(currentCustomer.getCart());
+				if(currentCustomer.getCart().isEmpty()) {
+					C_CA_noCart.setText("!");
+					C_CA_noItems.setText("No items are in your cart!");
+				}
 			}
 	}}));
 	
