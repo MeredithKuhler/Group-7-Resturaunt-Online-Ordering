@@ -686,6 +686,26 @@ public void start(Stage stage) throws Exception
 	E_AILabel.setFont(TITLE_FONT);
 
 	VBox E_AI_mainBox = new VBox();
+	
+	//appends all existing users to combobox
+	Scanner findName = new Scanner(new FileReader(TEXTFILE));
+	String currentLine = "";
+	String couponUsername = "";
+	ArrayList<String> couponUsernameList = new ArrayList<String>();
+	while(findName.hasNextLine()) {
+		currentLine = findName.nextLine();
+		if(currentLine.contains("username: ")) {
+			couponUsername = currentLine;
+			System.out.println(findName.nextLine());
+			if(findName.nextLine().contains("customer")) {
+				couponUsernameList.add(couponUsername.substring(couponUsername.lastIndexOf(" ") + 1));
+			}
+		}
+	}
+	
+	Label E_AI_userLabel = new Label("Username");
+	E_AI_userLabel.setFont(SUB1_FONT);
+	ComboBox E_AI_userBox = new ComboBox(FXCollections.observableArrayList(couponUsernameList));
 
 	Label E_AI_userLabel = new Label("Username");
 	E_AI_userLabel.setFont(SUB1_FONT);
