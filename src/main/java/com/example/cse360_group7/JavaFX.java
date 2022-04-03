@@ -339,14 +339,14 @@ public void start(Stage stage) throws Exception
 	C_AI_cart.setFont(TITLE_FONT);
 	C_AI_cart.setStyle(NAV_BUTTON_CSS);
 
-	Button C_AI_account = new Button("ACCOUNT");
-	C_AI_account.setFont(TITLE_FONT);
-	C_AI_account.setStyle(NAV_BUTTON_CSS);
-	C_AI_account.setTextFill(RED);
+	Button C_AI_login = new Button("LOGIN");
+	C_AI_login.setFont(TITLE_FONT);
+	C_AI_login.setStyle(NAV_BUTTON_CSS);
+	C_AI_login.setTextFill(RED);
 
 	//Main Header Menu HBox
 	HBox C_AI_menu = new HBox();
-	C_AI_menu.getChildren().addAll(C_AI_logoBox, C_AI_orderNow, C_AI_cart, C_AI_account);
+	C_AI_menu.getChildren().addAll(C_AI_logoBox, C_AI_orderNow, C_AI_cart, C_AI_login);
 	C_AI_menu.setStyle(NAV_BOX_CSS);
 
 
@@ -481,7 +481,57 @@ public void start(Stage stage) throws Exception
 	C_CM_menu.setStyle(NAV_BOX_CSS);
 
 
-	//===== Main Page Box =====//
+	//===== Sub Menu Box =====//
+	HBox C_CM_subMenu = new HBox();
+	Button C_CM_saladButton = new Button("SALADS");
+	C_CM_saladButton.setFont(SUB1_FONT);
+
+	Button C_CM_pastaButton = new Button("PASTA");
+	C_CM_pastaButton.setFont(SUB1_FONT);
+
+	Button C_CM_paniniButton = new Button("PANINI");
+	C_CM_paniniButton.setFont(SUB1_FONT);
+
+	Button C_CM_pizzaButton = new Button("PIZZA");
+	C_CM_pizzaButton.setFont(SUB1_FONT);
+
+	TextField C_CM_searchField = new TextField();
+	C_CM_searchField.setPromptText("SEARCH");
+	C_CM_searchField.setFont(SUB1_FONT);
+
+	C_CM_subMenu.getChildren().addAll(C_CM_saladButton, C_CM_pastaButton, C_CM_paniniButton, C_CM_pizzaButton, C_CM_searchField);
+
+
+	//===== Main Body Box =====//
+	VBox C_CM_mainBodyBox = new VBox();
+
+	Label C_CM_saladLabel = new Label("SALAD");
+	C_CM_saladLabel.setFont(TITLE_FONT);
+	TableView C_CM_salads = new TableView();
+
+	Label C_CM_pastaLabel = new Label("PASTA");
+	C_CM_pastaLabel.setFont(TITLE_FONT);
+	TableView C_CM_pastas = new TableView();
+
+	Label C_CM_paniniLabel = new Label("PANINI");
+	C_CM_paniniLabel.setFont(TITLE_FONT);
+	TableView C_CM_paninis = new TableView();
+
+	Label C_CM_pizzaLabel = new Label("PIZZA");
+	C_CM_pizzaLabel.setFont(TITLE_FONT);
+	TableView C_CM_pizzas = new TableView();
+
+	C_CM_mainBodyBox.getChildren().addAll(C_CM_saladLabel, C_CM_salads, C_CM_pastaLabel, C_CM_pastas, C_CM_paniniLabel, C_CM_paninis, C_CM_pizzaLabel, C_CM_pizzas);
+	ScrollPane C_CM_mainBody = new ScrollPane();
+	C_CM_mainBody.setContent(C_CM_mainBodyBox);
+
+
+	//===== Creating the scene =====//
+	VBox C_CM_outerBox = new VBox();
+	C_CM_outerBox.setStyle(OUTER_BOX_CSS);
+	C_CM_outerBox.getChildren().addAll(C_CM_menu, C_CM_subMenu, C_CM_mainBody);
+
+	Scene CMenuScene = new Scene(C_CM_outerBox, 1600, 850);
 
 
 
@@ -512,11 +562,50 @@ public void start(Stage stage) throws Exception
 
 	//Main Header Menu HBox
 	HBox C_PI_menu = new HBox();
-	C_PI_menu.getChildren().addAll(C_CM_logoBox, C_PI_orderNow, C_PI_cart, C_PI_login);
+	C_PI_menu.getChildren().addAll(C_PI_logoBox, C_PI_orderNow, C_PI_cart, C_PI_login);
 	C_PI_menu.setStyle(NAV_BOX_CSS);
 
 
 	//===== Main Page Box =====//
+	Label C_PIlabel = new Label("Payment Information");
+	C_PIlabel.setFont(TITLE_FONT);
+
+	TextField C_PI_cardNumber = new TextField();
+	C_PI_cardNumber.setFont(BODY_FONT);
+	Label C_PI_numberLabel = new Label("Card Number");
+	C_PI_numberLabel.setFont(BODY_FONT);
+
+	HBox C_PI_cardBox = new HBox();
+
+	VBox C_PI_nameBox = new VBox();
+	TextField C_PI_cardName = new TextField();
+	C_PI_cardName.setFont(BODY_FONT);
+	Label C_PI_nameLabel = new Label("Name");
+	C_PI_nameLabel.setFont(BODY_FONT);
+	C_PI_nameBox.getChildren().addAll(C_PI_cardName, C_PI_nameLabel);
+
+	VBox C_PI_secBox = new VBox();
+	TextField C_PI_secCode = new TextField();
+	C_PI_secCode.setFont(BODY_FONT);
+	Label C_PI_secLabel = new Label("Security Code");
+	C_PI_secLabel.setFont(BODY_FONT);
+	C_PI_secBox.getChildren().addAll(C_PI_secCode, C_PI_secLabel);
+
+	VBox C_PI_expBox = new VBox();
+	TextField C_PI_expiration = new TextField();
+	C_PI_expiration.setFont(BODY_FONT);
+	Label C_PI_expirLabel = new Label("Expiration");
+	C_PI_expirLabel.setFont(BODY_FONT);
+	C_PI_expBox.getChildren().addAll(C_PI_expiration, C_PI_expirLabel);
+
+	C_PI_cardBox.getChildren().addAll(C_PI_nameBox, C_PI_secBox, C_PI_expBox);
+
+	//===== Creating the scene =====//
+	VBox C_PI_outerBox = new VBox();
+	C_PI_outerBox.setStyle(OUTER_BOX_CSS);
+	C_PI_outerBox.getChildren().addAll(C_PI_menu, C_PIlabel, C_PI_cardNumber, C_PI_numberLabel, C_PI_cardBox);
+
+	Scene CCardInfoScene = new Scene(C_PI_outerBox, 1600, 850);
 
 
 
@@ -537,8 +626,8 @@ public void start(Stage stage) throws Exception
 	E_AI_logo.setFitWidth(196);
 
 	HBox E_AI_logoBox = new HBox();
-	C_CM_logoBox.getChildren().addAll(E_AI_logo);
-	C_CM_logoBox.setStyle(NAV_LOGO_HBOX_CSS);
+	E_AI_logoBox.getChildren().addAll(E_AI_logo);
+	E_AI_logoBox.setStyle(NAV_LOGO_HBOX_CSS);
 
 	Button E_AI_orderNow = new Button("ORDER NOW");
 	E_AI_orderNow.setFont(TITLE_FONT);
@@ -548,14 +637,14 @@ public void start(Stage stage) throws Exception
 	E_AI_cart.setFont(TITLE_FONT);
 	E_AI_cart.setStyle(NAV_BUTTON_CSS);
 
-	Button E_AI_account = new Button("ACCOUNT");
-	E_AI_account.setFont(TITLE_FONT);
-	E_AI_account.setStyle(NAV_BUTTON_CSS);
-	E_AI_account.setTextFill(RED);
+	Button E_AI_login = new Button("LOGIN");
+	E_AI_login.setFont(TITLE_FONT);
+	E_AI_login.setStyle(NAV_BUTTON_CSS);
+	E_AI_login.setTextFill(RED);
 
 	//Main Header Menu HBox
 	HBox E_AI_menu = new HBox();
-	E_AI_menu.getChildren().addAll(E_AI_logoBox, E_AI_orderNow, E_AI_cart, E_AI_account);
+	E_AI_menu.getChildren().addAll(E_AI_logoBox, E_AI_orderNow, E_AI_cart, E_AI_login);
 	E_AI_menu.setStyle(NAV_BOX_CSS);
 
 
@@ -565,34 +654,17 @@ public void start(Stage stage) throws Exception
 
 	VBox E_AI_mainBox = new VBox();
 
-	ArrayList<Customer> customers = new ArrayList<Customer>();
-	customers.add(new Customer("Steve", "Steve"));
-	customers.add(new Customer("James", "James"));
-
 	Label E_AI_userLabel = new Label("Username");
 	E_AI_userLabel.setFont(SUB1_FONT);
-	ComboBox E_AI_userBox = new ComboBox();
+	Label E_AI_userBox = new Label("Username goes here");
+	E_AI_userBox.setFont(BODY_FONT);
 
-	ObservableList<String> customerList = E_AI_userBox.getItems();
-	for(int i = 0; i < customers.size(); i++) {
-		customerList.add(customers.get(i).getUsername());
-	}
-	
 	VBox E_AI_coupon = new VBox();
-	
-	ArrayList<Coupon> coupons = new ArrayList<Coupon>();
-	coupons.add(new Coupon("a43wa", .15f));
-	coupons.add(new Coupon("4b54c", .5f));
-	
+
 	Label E_AI_couponDist = new Label("Distribute Coupon");
 	E_AI_couponDist.setFont(SUB1_FONT);
 	ComboBox E_AI_couponField = new ComboBox();
-	
-	ObservableList<String> couponList = E_AI_couponField.getItems();
-	for(int i = 0; i < coupons.size(); i++) {
-		couponList.add(coupons.get(i).getCouponCode() + "\t" + String.format("%.2f",coupons.get(i).getCouponDiscount()*100) + "% off");
-	}
-	
+
 	Label E_AI_codeLabel = new Label("Coupon Code");
 	E_AI_codeLabel.setFont(SUB1_FONT);
 	TextField E_AI_code = new TextField();
@@ -653,7 +725,58 @@ public void start(Stage stage) throws Exception
 	E_EM_menu.setStyle(NAV_BOX_CSS);
 
 
-	//===== Main Page Box =====//
+	//===== Sub Menu Box =====//
+	HBox E_EM_subMenu = new HBox();
+	Button E_EM_saladButton = new Button("SALADS");
+	E_EM_saladButton.setFont(SUB1_FONT);
+
+	Button E_EM_pastaButton = new Button("PASTA");
+	E_EM_pastaButton.setFont(SUB1_FONT);
+
+	Button E_EM_paniniButton = new Button("PANINI");
+	E_EM_paniniButton.setFont(SUB1_FONT);
+
+	Button E_EM_pizzaButton = new Button("PIZZA");
+	E_EM_pizzaButton.setFont(SUB1_FONT);
+
+	TextField E_EM_searchField = new TextField();
+	E_EM_searchField.setPromptText("SEARCH");
+	E_EM_searchField.setFont(SUB1_FONT);
+
+	E_EM_subMenu.getChildren().addAll(E_EM_saladButton, E_EM_pastaButton, E_EM_paniniButton, E_EM_pizzaButton, E_EM_searchField);
+
+
+	//===== Main Body Box =====//
+	VBox E_EM_mainBodyBox = new VBox();
+
+	Label E_EM_saladLabel = new Label("SALAD");
+	E_EM_saladLabel.setFont(TITLE_FONT);
+	TableView E_EM_salads = new TableView();
+
+	Label E_EM_pastaLabel = new Label("PASTA");
+	E_EM_pastaLabel.setFont(TITLE_FONT);
+	TableView E_EM_pastas = new TableView();
+
+	Label E_EM_paniniLabel = new Label("PANINI");
+	E_EM_paniniLabel.setFont(TITLE_FONT);
+	TableView E_EM_paninis = new TableView();
+
+	Label E_EM_pizzaLabel = new Label("PIZZA");
+	E_EM_pizzaLabel.setFont(TITLE_FONT);
+	TableView E_EM_pizzas = new TableView();
+
+	E_EM_mainBodyBox.getChildren().addAll(E_EM_saladLabel, E_EM_salads, E_EM_pastaLabel, E_EM_pastas, E_EM_paniniLabel, E_EM_paninis, E_EM_pizzaLabel, E_EM_pizzas);
+
+	ScrollPane E_EM_mainBody = new ScrollPane();
+	E_EM_mainBody.setContent(E_EM_mainBodyBox);
+
+
+	//===== Creating the scene =====//
+	VBox E_EM_outerBox = new VBox();
+	E_EM_outerBox.setStyle(OUTER_BOX_CSS);
+	E_EM_outerBox.getChildren().addAll(E_EM_menu, E_EM_subMenu, E_EM_mainBody);
+
+	Scene EMenuScene = new Scene(E_EM_outerBox, 1600, 850);
 
 
 
@@ -804,10 +927,10 @@ public void start(Stage stage) throws Exception
 
 	//stage.setScene(CAccountInfoScene);
 	//stage.setScene(CCartScene);
-	//stage.setScene(CMenu); -
-	//stage.setScene(CPaymentInfo); -
+	//stage.setScene(CMenuScene);
+	//stage.setScene(CCardInfoScene);
 
-	//stage.setScene(EMenu); -
+	//stage.setScene(EMenuScene);
 	//stage.setScene(EAccountScene);
 
 }
