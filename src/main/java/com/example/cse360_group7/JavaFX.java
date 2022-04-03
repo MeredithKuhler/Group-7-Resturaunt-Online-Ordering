@@ -706,12 +706,7 @@ public void start(Stage stage) throws Exception
 	Label E_AI_userLabel = new Label("Username");
 	E_AI_userLabel.setFont(SUB1_FONT);
 	ComboBox E_AI_userBox = new ComboBox(FXCollections.observableArrayList(couponUsernameList));
-
-	Label E_AI_userLabel = new Label("Username");
-	E_AI_userLabel.setFont(SUB1_FONT);
-	Label E_AI_userBox = new Label("Username goes here");
-	E_AI_userBox.setFont(BODY_FONT);
-
+	
 	VBox E_AI_coupon = new VBox();
 
 	Label E_AI_couponDist = new Label("Distribute Coupon");
