@@ -94,6 +94,12 @@ public void start(Stage stage) throws Exception
 	final String TEXTFILE = ".\\src\\accountinfo.txt";
 	Customer currentCustomer = new Customer("guest", "guest");
 	Employee admin = new Employee("admin", "admin");
+	MenuItem pizza = new MenuItem("Pizza", 2000, 10.00);
+	MenuItem pasta = new MenuItem("Pasta", 1000, 10.00);
+	currentCustomer.addMenuItem(pizza);
+	currentCustomer.addMenuItem(pasta);
+	currentCustomer.addMenuItem(pizza);
+	currentCustomer.addMenuItem(pasta);
 	
  //============================= Log In =============================//
 
@@ -423,16 +429,47 @@ public void start(Stage stage) throws Exception
 	VBox C_CA_cartBox = new VBox();
 
 	//----- empty cart -----//
-	Label C_CA_noCart = new Label("!");
+	Label C_CA_noCart = new Label("");
 	C_CA_noCart.setFont(TITLE_FONT);
 
-	Label C_CA_noItems = new Label("No items are in your cart!");
+	 
+	Label C_CA_noItems = new Label("");
 	C_CA_noItems.setFont(BODY_FONT);
-
+	
+	//Cart populated
+	Label C_CA_yesItems = new Label("");
+	C_CA_yesItems.setFont(BODY_FONT);
+	
+	String cartItems = "";
+	ArrayList<String> checkDuplicate = new ArrayList<String>();
+	
+	if (currentCustomer.getCart().size() == 0)
+	{
+		C_CA_noCart.setText("!");
+		C_CA_noItems.setText("No items are in your cart!");
+		
+	}
+	else
+	{
+		for (int i = 0; i < currentCustomer.getCart().size(); i++ ) // looping through the cart
+		{
+			if (checkDuplicate.contains(currentCustomer.getCart().get(i).getItemName()) == false) {
+				cartItems += currentCustomer.getCart().get(i).getItemName() + "\t" + currentCustomer.getCart().get(i).getPrice()
+						 + "\t" + currentCustomer.getAmountOfItem(currentCustomer.getCart().get(i)) + "\n";
+				checkDuplicate.add(currentCustomer.getCart().get(i).getItemName());
+			}
+		}
+		C_CA_yesItems.setText(cartItems);
+	}
 	Button C_CA_newOrder = new Button("Order Now");
 	C_CA_newOrder.setFont(BODY_FONT);
+	
+	ComboBox C_CA_removeItemBox = new ComboBox(FXCollections.observableArrayList(checkDuplicate));
+	Button C_CA_removeItemButton = new Button("Remove Item");
+	C_CA_removeItemButton.setFont(BODY_FONT);
 
-	C_CA_cartBox.getChildren().addAll(C_CA_noCart, C_CA_noItems, C_CA_newOrder);
+	C_CA_cartBox.getChildren().addAll(C_CA_noCart, C_CA_noItems, C_CA_yesItems, C_CA_removeItemBox, C_CA_removeItemButton, C_CA_newOrder);
+
 
 	//----- cart with items -----//
 
@@ -916,6 +953,31 @@ public void start(Stage stage) throws Exception
 		}
 	}));
 	//coupon distribution
+	//cart
+	C_AI_cart.setOnMouseClicked((new EventHandler<javafx.scene.input.MouseEvent>() {
+		public void handle(javafx.scene.input.MouseEvent e) {
+			stage.setScene(CCartScene);
+		}
+	}));
+	
+	//this is for when u click the remove item button in the cart for customers
+	//need to find a way to re-render the updated cart since we will be removing an item by the end of the method
+	C_CA_removeItemButton.setOnMouseClicked((new EventHandler<javafx.scene.input.MouseEvent>() {
+		String cartItems = "";
+		String removedItem = "";
+		public void handle(javafx.scene.input.MouseEvent e) {
+			
+			if (C_CA_removeItemBox.getValue() == null)
+			{
+				System.out.println("nothing is selected");
+			}
+			else
+			{
+				removedItem = (String) C_CA_removeItemBox.getValue();
+				currentCustomer.removeMenuItem(removedItem);
+				System.out.println(currentCustomer.getCart());
+			}
+	}}));
 	
 	stage.show();
 	stage.setScene(SignInScene);
