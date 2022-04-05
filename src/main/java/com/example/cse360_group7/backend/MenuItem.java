@@ -2,33 +2,41 @@ package application;
 
 public class MenuItem {
 	private String itemName;
-	private int calories;
+	private String calories;
 	private Double price;
-	//TODO: Something image related?
+	private int prepTime;
+	private String image;
 	
 	//constructors - no default
-	public MenuItem(String itemName, int calories, Double price) {
+	public MenuItem(String itemName, String calories, Double price, int prepTime, String image) {
 		this.itemName = itemName;
 		this.calories = calories;
 		this.price = price;
+		this.prepTime = prepTime;
+		this.image = image;
 	}
 	
 	//getters
 	public String getItemName() {
 		return itemName;
 	}
-	public int getCalories() {
+	public String getCalories() {
 		return calories;
 	}
 	public Double getPrice() {
 		return price;
 	}
-	
+	public int getPrepTime() {
+		return prepTime;
+	}
+	public String getImage() {
+		return image;
+	}
 	//setters - editing menu items on employee side(no customer interaction)
 	public void setItemName(String itemName) {
 		this.itemName = itemName;
 	}
-	public void setCalories(int calories) {
+	public void setCalories(String calories) {
 		this.calories = calories;
 	}
 	public void setPrice(Double price) {

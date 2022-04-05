@@ -1,0 +1,15 @@
+Customer: Steve
+Cardnum: wasdwa
+Cardname: gfsgs
+seccode: wasd
+expiration: wasdwa
+Customer: guest
+Cardnum: 0000 0000 0000 0000
+Cardname: guest
+seccode: 793
+expiration: 10/40
+Customer: Steve
+Cardnum: 0000 0000 0000 0000
+Cardname: guest
+seccode: 793
+expiration: 10/40

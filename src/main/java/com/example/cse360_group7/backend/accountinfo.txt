@@ -1,9 +1,36 @@
-Employee
-Steve
-No
-Employee
-James
-bacd
-Customer
-fyuty
-srfgdgh
+username: admin
+password: admin
+accounttype: employee
+
+
+username: Steve
+password: abc
+accounttype: customer
+username: fsdgdfg
+password: awasdaw
+accounttype: customer
+coupons: 
+username: wagfdhf
+password: sdfasd
+accounttype: customer
+coupons: 
+username: wasgfdh
+password: awsdawd
+accounttype: customer
+coupons: 
+username: asdfsadf
+password: wasdasef
+accounttype: customer
+coupons: 
+username: abc
+password: abc
+accounttype: customer
+username: abcd
+password: a
+accounttype: customer
+username: lkj
+password: lkj
+accounttype: customer
+username: umt
+password: umt
+accounttype: customer

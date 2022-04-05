@@ -10,11 +10,14 @@ public class Customer extends Account{
   private Double cartPrice;
   private ArrayList<Coupon> coupons = new ArrayList<Coupon>();
   private String email;
+  private Boolean orderPlaced;
+  private int orderETA;
   
   //constructor
   public Customer(String username, String password) {
 	  this.username = username;
 	  this.password = password;
+	  this.orderPlaced = false;
   }
   
   //setter
@@ -26,11 +29,32 @@ public class Customer extends Account{
 	  this.password = password;
   }
   
+  public void setOrderPlaced(Boolean bool) {
+	  orderPlaced = bool;
+  }
+  
+  public void setOrderETA() {
+
+      this.orderETA = 0;
+      for (int i =0; i<cart.size(); i++)//iterate through cart
+          this.orderETA += cart.get(i).getPrepTime(); //get prep time of each item in the cart and add it.
+
+  }
+  
+  public int getOrderETA() {
+	  
+	  return this.orderETA;
+  }
+  
+  public Boolean getOrderPlaced() {
+	  return orderPlaced;
+  }
+  
   public Double getCartPrice() {
 	  this.cartPrice = 0.00; // set cart price intially to zero
 	  
 	  for (int i =0; i<cart.size(); i++)//iterate through cart
-		  this.cartPrice = cart.get(i).getPrice(); //get price of each item in the cart and add it.
+		  this.cartPrice += cart.get(i).getPrice(); //get price of each item in the cart and add it.
 	  
 	  return cartPrice;
   }
@@ -55,10 +79,9 @@ public class Customer extends Account{
 		  }	  	  
     }
   
-  public Float useCoupon(Coupon coupon, Float price){
+  public double useCoupon(Double coupon, Double price){
 
-	coupons.remove(coupon);
-    return price*coupon.getCouponDiscount();
+    return price - price*coupon;
     
   }
   
