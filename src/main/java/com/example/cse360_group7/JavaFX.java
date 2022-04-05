@@ -1,8 +1,8 @@
 package com.example.cse360_group7;
+
 //import com.sun.javafx.stage.EmbeddedWindow;
 import javafx.event.EventHandler;
 import javafx.application.Application;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -10,23 +10,18 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
+import java.io.*;
 import java.text.AttributedCharacterIterator;
 
 //Imports for reading/writing
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintWriter;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -69,23 +64,33 @@ public void start(Stage stage) throws Exception
 	Font BODY_FONT = new Font(GLOBALFONT_FAMILY, BODYFONT_SIZE);
 
 
-	//----- Global Box Styles -----//
+	//----- Global Styles -----//
 	String OUTER_BOX_CSS = "-fx-background-color: #878787;" +
 				"-fx-alignment: bottom-center;" +
-				"-fx-alignment: top-center";
+				"-fx-alignment: top-center;";
 	// nav menu on all pages
 	String NAV_BOX_CSS = "-fx-background-color: #FFFFFF;" +
 				"-fx-alignment: top-right;" +
 				"-fx-padding: 10 100 5 30;" +
 				"-fx-border-color: #EF0101;" +
-				"-fx-border-width: 0 0 10 0";
+				"-fx-border-width: 0 0 10 0;";
 	String NAV_BUTTON_CSS = "-fx-background-color: #FFFFFF;" +
 				"-fx-padding: 0 20 0 20;" +
 				"-fx-border-color: #000000;" +
-				"-fx-border-width: 0 2 0 0";
+				"-fx-border-width: 0 2 0 0;";
 	String NAV_LOGO_HBOX_CSS = "-fx-padding: 0 500 0 0";
-	// food menu on order now pages (customer & employee versions)
-	String MENU_BUTTON_CSS = "";
+	String WHITEBOX_CSS = "-fx-background-color: #FFFFFF;" +
+			"-fx-background-insets: 20 500 20 500;" +
+			"-fx-padding: 50 510 190 510;";
+	String BOXED_BUTTON_CSS = "-fx-background-color: #FFFFFF;" +
+			"-fx-border-color: #878787;" +
+			"-fx-border-width: 2;";
+	String UNDERLINE_BUTTON_CSS = "-fx-background-color: #FFFFFF;" +
+			"-fx-padding: 0 200 0 0;" +
+			"-fx-underline: true;";
+	String TITLE_CSS = "-fx-padding: 0 0 50 0;" +
+			"-fx-text-alignment: CENTER;" +
+			"-fx-alignment: top-center;";
 
 
 	//----- Global Images -----//
@@ -134,19 +139,9 @@ public void start(Stage stage) throws Exception
 
 
 	//----- User Entry Box -----//
-	String li_entryBox_css = "-fx-background-color: #FFFFFF;" +
-			"-fx-background-insets: 20 500 20 500;" +
-			"-fx-padding: 50 500 190 510";
 	String li_entryLab_css = "-fx-alignment: top-left;";
 	String li_entryField_css = "fx-padding: 20;" +
 			"-fx-min-height: 50;" +
-			"-fx-border-color: #878787;" +
-			"-fx-border-width: 2";
-	String li_accButton_css = "-fx-background-color: #FFFFFF;" +
-			"-fx-padding: 0 200 0 0;" +
-			"-fx-underline: true";
-	String li_signInButton = "-fx-background-color: #FFFFFF;" +
-			"-fx-underline: true;" +
 			"-fx-border-color: #878787;" +
 			"-fx-border-width: 2";
 
@@ -155,7 +150,7 @@ public void start(Stage stage) throws Exception
 	LI_titleLab.setFont(TITLE_FONT);
 	VBox LI_title = new VBox();
 	LI_title.getChildren().addAll(LI_titleLab);
-	LI_title.setAlignment(Pos.TOP_CENTER);
+	LI_title.setStyle(TITLE_CSS);
 
 	// user and pass entry
 	Label LI_user = new Label("Username");
@@ -179,11 +174,11 @@ public void start(Stage stage) throws Exception
 
 	// create account and sign in buttons
 	Button LI_createAcc = new Button("Create Account");
-	LI_createAcc.setStyle(li_accButton_css);
+	LI_createAcc.setStyle(UNDERLINE_BUTTON_CSS);
 	LI_createAcc.setFont(BODY_FONT);
 
 	Button LI_signIn = new Button("Sign In");
-	LI_signIn.setStyle(li_signInButton);
+	LI_signIn.setStyle(BOXED_BUTTON_CSS);
 	LI_signIn.setFont(BODY_FONT);
 
 	HBox LI_accButtons = new HBox();
@@ -197,7 +192,7 @@ public void start(Stage stage) throws Exception
 
 	//Whole Entry Box VBox
 	VBox LI_entry = new VBox();
-	LI_entry.setStyle(li_entryBox_css);
+	LI_entry.setStyle(WHITEBOX_CSS);
 	LI_entry.getChildren().addAll(LI_title, LI_userEntry);
 	LI_entry.setAlignment(Pos.TOP_CENTER);
 
@@ -242,19 +237,9 @@ public void start(Stage stage) throws Exception
 
 
 	//----- User Entry Box -----//
-	String su_entryBox_css = "-fx-background-color: #FFFFFF;" +
-			"-fx-background-insets: 20 500 20 500;" +
-			"-fx-padding: 50 500 190 510";
 	String su_entryLab_css = "-fx-alignment: top-left;";
 	String su_entryField_css = "fx-padding: 20;" +
 			"-fx-min-height: 50;" +
-			"-fx-border-color: #878787;" +
-			"-fx-border-width: 2";
-	String su_accButton_css = "-fx-background-color: #FFFFFF;" +
-			"-fx-padding: 0 200 0 0;" +
-			"-fx-underline: true";
-	String su_signInButton = "-fx-background-color: #FFFFFF;" +
-			"-fx-underline: true;" +
 			"-fx-border-color: #878787;" +
 			"-fx-border-width: 2";
 
@@ -263,7 +248,7 @@ public void start(Stage stage) throws Exception
 	SU_titleLab.setFont(TITLE_FONT);
 	VBox SU_title = new VBox();
 	SU_title.getChildren().addAll(SU_titleLab);
-	SU_title.setAlignment(Pos.TOP_CENTER);
+	SU_title.setStyle(TITLE_CSS);
 
 	// user and pass entry
 	Label SU_user = new Label("Username");
@@ -284,11 +269,11 @@ public void start(Stage stage) throws Exception
 
 	// create account and sign in buttons
 	Button SU_createAcc = new Button("Sign In");
-	SU_createAcc.setStyle(su_accButton_css);
+	SU_createAcc.setStyle(UNDERLINE_BUTTON_CSS);
 	SU_createAcc.setFont(BODY_FONT);
 
 	Button SU_signIn = new Button("Create Account");
-	SU_signIn.setStyle(su_signInButton);
+	SU_signIn.setStyle(BOXED_BUTTON_CSS);
 	SU_signIn.setFont(BODY_FONT);
 
 	HBox SU_accButtons = new HBox();
@@ -302,7 +287,7 @@ public void start(Stage stage) throws Exception
 
 	//Whole Entry Box VBox
 	VBox SU_entry = new VBox();
-	SU_entry.setStyle(li_entryBox_css);
+	SU_entry.setStyle(WHITEBOX_CSS);
 	SU_entry.getChildren().addAll(SU_title, SU_userEntry);
 	SU_entry.setAlignment(Pos.TOP_CENTER);
 
@@ -342,7 +327,7 @@ public void start(Stage stage) throws Exception
 	C_AI_cart.setFont(TITLE_FONT);
 	C_AI_cart.setStyle(NAV_BUTTON_CSS);
 
-	Button C_AI_login = new Button("LOGIN");
+	Button C_AI_login = new Button("ACCOUNT");
 	C_AI_login.setFont(TITLE_FONT);
 	C_AI_login.setStyle(NAV_BUTTON_CSS);
 	C_AI_login.setTextFill(RED);
@@ -352,12 +337,19 @@ public void start(Stage stage) throws Exception
 	C_AI_menu.getChildren().addAll(C_AI_logoBox, C_AI_orderNow, C_AI_cart, C_AI_login);
 	C_AI_menu.setStyle(NAV_BOX_CSS);
 
+	//===== CSS =====//
+	String C_AI_buttonBox_css = "-fx-alignment: top-center;" +
+			"-fx-padding: 40 30 30 30";
 
 	//===== Main Page Box =====//
 
+	//title
 	Label C_AILabel = new Label("ACCOUNT INFO");
 	C_AILabel.setFont(TITLE_FONT);
+	VBox C_AI_title = new VBox(C_AILabel);
+	C_AI_title.setStyle(TITLE_CSS);
 
+	// user info
 	Label C_AI_userLabel = new Label ("Username");
 	C_AI_userLabel.setFont(SUB1_FONT);
 	TextField C_AI_user = new TextField();
@@ -368,24 +360,37 @@ public void start(Stage stage) throws Exception
 	TextField C_AI_visits = new TextField();
 	C_AI_visits.setFont(BODY_FONT);
 
+	VBox C_AI_userInfo = new VBox();
+	C_AI_userInfo.getChildren().addAll(C_AI_userLabel, C_AI_user, C_AI_visitsLabel, C_AI_visits);
+	C_AI_userInfo.setStyle("-fx-padding: 0 40 0 40");
+
+	// buttons
 	Button C_AI_payment = new Button("Edit Payment Info");
 	C_AI_payment.setFont(BODY_FONT);
+	C_AI_payment.setStyle(BOXED_BUTTON_CSS);
 	Button C_AI_orderStatus = new Button("Check Order Status");
 	C_AI_orderStatus.setFont(BODY_FONT);
+	C_AI_orderStatus.setStyle(BOXED_BUTTON_CSS);
 
-	Button C_AI_Logout = new Button("LOGOUT");
+	Button C_AI_Logout = new Button("LOG OUT");
 	C_AI_Logout.setFont(SUB1_FONT);
+	C_AI_Logout.setStyle(UNDERLINE_BUTTON_CSS + "-fx-padding: 20 0 0 40;");
 
 	HBox C_AI_buttonBox = new HBox();
 	C_AI_buttonBox.getChildren().addAll(C_AI_payment, C_AI_orderStatus);
-	VBox C_AI_userInfo = new VBox();
-	C_AI_userInfo.getChildren().addAll(C_AI_userLabel, C_AI_user, C_AI_visitsLabel, C_AI_visits);
+	C_AI_buttonBox.setStyle(C_AI_buttonBox_css);
+	C_AI_buttonBox.setSpacing(30);
+
+	// outer white box
+	VBox C_AI_mainBox = new VBox();
+	C_AI_mainBox.setStyle(WHITEBOX_CSS);
+	C_AI_mainBox.getChildren().addAll(C_AI_title, C_AI_userInfo, C_AI_buttonBox, C_AI_Logout);
 
 
 	//===== Creating the scene =====//
 	VBox C_AI_outerBox = new VBox();
 	C_AI_outerBox.setStyle(OUTER_BOX_CSS);
-	C_AI_outerBox.getChildren().addAll(C_AI_menu, C_AI_userInfo, C_AI_buttonBox, C_AI_Logout);
+	C_AI_outerBox.getChildren().addAll(C_AI_menu, C_AI_mainBox);
 
 	Scene CAccountInfoScene = new Scene(C_AI_outerBox, 1600, 850);
 
@@ -410,78 +415,70 @@ public void start(Stage stage) throws Exception
 	Button C_CA_cart = new Button("CART");
 	C_CA_cart.setFont(TITLE_FONT);
 	C_CA_cart.setStyle(NAV_BUTTON_CSS);
+	C_CA_cart.setTextFill(RED);
 
-	Button C_CA_login = new Button("LOGIN");
+	Button C_CA_login = new Button("ACCOUNT");
 	C_CA_login.setFont(TITLE_FONT);
 	C_CA_login.setStyle(NAV_BUTTON_CSS);
-	C_CA_login.setTextFill(RED);
 
 	//Main Header Menu HBox
 	HBox C_CA_menu = new HBox();
 	C_CA_menu.getChildren().addAll(C_CA_logoBox, C_CA_orderNow, C_CA_cart, C_CA_login);
 	C_CA_menu.setStyle(NAV_BOX_CSS);
 
+	// css
+	String cart_box_css = "-fx-border-color: #EF0101;" +
+			"-fx-border-width: 2;" +
+			"-fx-padding: 20 20 20 20;";
 
 	//===== Main Page Box =====//
 
+	// title
 	Label C_CALabel = new Label("CART");
 	C_CALabel.setFont(TITLE_FONT);
+	VBox C_CA_title = new VBox(C_CALabel);
+	C_CA_title.setStyle(TITLE_CSS);
 
 	VBox C_CA_cartBox = new VBox();
 
-	//----- empty cart -----//
-	Label C_CA_noCart = new Label("");
+	//----- cart -----//
+	Label C_CA_noCart = new Label("!");
 	C_CA_noCart.setFont(TITLE_FONT);
 
-	 
-	Label C_CA_noItems = new Label("");
+	Label C_CA_noItems = new Label("No items are in your cart!");
 	C_CA_noItems.setFont(BODY_FONT);
-	
-	//Cart populated
-	Label C_CA_yesItems = new Label("");
-	C_CA_yesItems.setFont(BODY_FONT);
-	
-	String cartItems = "";
-	ArrayList<String> checkDuplicate = new ArrayList<String>();
-	
-	if (currentCustomer.getCart().size() == 0)
-	{
-		C_CA_noCart.setText("!");
-		C_CA_noItems.setText("No items are in your cart!");
-		
-	}
-	else
-	{
-		for (int i = 0; i < currentCustomer.getCart().size(); i++ ) // looping through the cart
-		{
-			if (checkDuplicate.contains(currentCustomer.getCart().get(i).getItemName()) == false) {
-				cartItems += currentCustomer.getCart().get(i).getItemName() + "\t" + currentCustomer.getCart().get(i).getPrice()
-						 + "\t" + currentCustomer.getAmountOfItem(currentCustomer.getCart().get(i)) + "\n";
-				checkDuplicate.add(currentCustomer.getCart().get(i).getItemName());
-			}
-		}
-		C_CA_yesItems.setText(cartItems);
-	}
+
 	Button C_CA_newOrder = new Button("Order Now");
 	C_CA_newOrder.setFont(BODY_FONT);
-	
-	ComboBox C_CA_removeItemBox = new ComboBox(FXCollections.observableArrayList(checkDuplicate));
-	Button C_CA_removeItemButton = new Button("Remove Item");
-	C_CA_removeItemButton.setFont(BODY_FONT);
+	C_CA_newOrder.setStyle(BOXED_BUTTON_CSS);
 
-	C_CA_cartBox.getChildren().addAll(C_CA_noCart, C_CA_noItems, C_CA_yesItems, C_CA_removeItemBox, C_CA_removeItemButton, C_CA_newOrder);
+	C_CA_cartBox.setStyle(cart_box_css);
+	C_CA_cartBox.setAlignment(Pos.TOP_CENTER);
+
+	//full cart
+	VBox C_CA_cartItems = new VBox();
+	ScrollPane C_CA_fullCart = new ScrollPane(C_CA_cartItems);
+	C_CA_cartItems.setSpacing(20);
+	//empty cart
+	VBox C_CA_emptyCart = new VBox();
+	C_CA_emptyCart.getChildren().addAll(C_CA_noCart, C_CA_noItems, C_CA_newOrder);
 
 
-	//----- cart with items -----//
 
 
 	//===== Creating the scene =====//
+	C_CA_cartBox.getChildren().addAll(C_CA_emptyCart);
+	// remove all and add - empty cart: C_CA_emptyCart. full cart: C_CA_fullCart
+
+	VBox C_CA_mainBox = new VBox();
+	C_CA_mainBox.setStyle(WHITEBOX_CSS);
+	C_CA_mainBox.getChildren().addAll(C_CA_title, C_CA_cartBox);
+
 	VBox C_CA_outerBox = new VBox();
 	C_CA_outerBox.setStyle(OUTER_BOX_CSS);
-	C_CA_outerBox.getChildren().addAll(C_CA_menu, C_CALabel, C_CA_cartBox);
+	C_CA_outerBox.getChildren().addAll(C_CA_menu, C_CA_mainBox);
 
 	Scene CCartScene = new Scene(C_CA_outerBox, 1600, 850);
-
 
 
 
@@ -499,41 +496,52 @@ public void start(Stage stage) throws Exception
 	Button C_CM_orderNow = new Button("ORDER NOW");
 	C_CM_orderNow.setFont(TITLE_FONT);
 	C_CM_orderNow.setStyle(NAV_BUTTON_CSS);
+	C_CM_orderNow.setTextFill(RED);
 
 	Button C_CM_cart = new Button("CART");
 	C_CM_cart.setFont(TITLE_FONT);
 	C_CM_cart.setStyle(NAV_BUTTON_CSS);
 
-	Button C_CM_login = new Button("LOGIN");
+	Button C_CM_login = new Button("ACCOUNT");
 	C_CM_login.setFont(TITLE_FONT);
 	C_CM_login.setStyle(NAV_BUTTON_CSS);
-	C_CM_login.setTextFill(RED);
 
 	//Main Header Menu HBox
 	HBox C_CM_menu = new HBox();
 	C_CM_menu.getChildren().addAll(C_CM_logoBox, C_CM_orderNow, C_CM_cart, C_CM_login);
 	C_CM_menu.setStyle(NAV_BOX_CSS);
 
+	// css
+	String C_CM_subMenu_css = "-fx-background-color: #FFFFFF;" +
+			"-fx-padding: 10 10 10 10;";
 
 	//===== Sub Menu Box =====//
-	HBox C_CM_subMenu = new HBox();
 	Button C_CM_saladButton = new Button("SALADS");
 	C_CM_saladButton.setFont(SUB1_FONT);
+	C_CM_saladButton.setStyle(BOXED_BUTTON_CSS);
 
 	Button C_CM_pastaButton = new Button("PASTA");
 	C_CM_pastaButton.setFont(SUB1_FONT);
+	C_CM_pastaButton.setStyle(BOXED_BUTTON_CSS);
 
 	Button C_CM_paniniButton = new Button("PANINI");
 	C_CM_paniniButton.setFont(SUB1_FONT);
+	C_CM_paniniButton.setStyle(BOXED_BUTTON_CSS);
 
 	Button C_CM_pizzaButton = new Button("PIZZA");
 	C_CM_pizzaButton.setFont(SUB1_FONT);
+	C_CM_pizzaButton.setStyle(BOXED_BUTTON_CSS);
 
 	TextField C_CM_searchField = new TextField();
 	C_CM_searchField.setPromptText("SEARCH");
 	C_CM_searchField.setFont(SUB1_FONT);
+	C_CM_searchField.setStyle(BOXED_BUTTON_CSS);
 
+	HBox C_CM_subMenu = new HBox();
 	C_CM_subMenu.getChildren().addAll(C_CM_saladButton, C_CM_pastaButton, C_CM_paniniButton, C_CM_pizzaButton, C_CM_searchField);
+	C_CM_subMenu.setStyle(C_CM_subMenu_css);
+	C_CM_subMenu.setAlignment(Pos.TOP_RIGHT);
+	C_CM_subMenu.setSpacing(20);
 
 
 	//===== Main Body Box =====//
@@ -541,23 +549,24 @@ public void start(Stage stage) throws Exception
 
 	Label C_CM_saladLabel = new Label("SALAD");
 	C_CM_saladLabel.setFont(TITLE_FONT);
-	TableView C_CM_salads = new TableView();
+	GridPane C_CM_salads = new GridPane();
 
 	Label C_CM_pastaLabel = new Label("PASTA");
 	C_CM_pastaLabel.setFont(TITLE_FONT);
-	TableView C_CM_pastas = new TableView();
+	GridPane C_CM_pastas = new GridPane();
 
 	Label C_CM_paniniLabel = new Label("PANINI");
 	C_CM_paniniLabel.setFont(TITLE_FONT);
-	TableView C_CM_paninis = new TableView();
+	GridPane C_CM_paninis = new GridPane();
 
 	Label C_CM_pizzaLabel = new Label("PIZZA");
 	C_CM_pizzaLabel.setFont(TITLE_FONT);
-	TableView C_CM_pizzas = new TableView();
+	GridPane C_CM_pizzas = new GridPane();
 
 	C_CM_mainBodyBox.getChildren().addAll(C_CM_saladLabel, C_CM_salads, C_CM_pastaLabel, C_CM_pastas, C_CM_paniniLabel, C_CM_paninis, C_CM_pizzaLabel, C_CM_pizzas);
 	ScrollPane C_CM_mainBody = new ScrollPane();
 	C_CM_mainBody.setContent(C_CM_mainBodyBox);
+	C_CM_mainBody.setStyle(WHITEBOX_CSS);
 
 
 	//===== Creating the scene =====//
@@ -566,7 +575,6 @@ public void start(Stage stage) throws Exception
 	C_CM_outerBox.getChildren().addAll(C_CM_menu, C_CM_subMenu, C_CM_mainBody);
 
 	Scene CMenuScene = new Scene(C_CM_outerBox, 1600, 850);
-
 
 
 
@@ -589,7 +597,7 @@ public void start(Stage stage) throws Exception
 	C_PI_cart.setFont(TITLE_FONT);
 	C_PI_cart.setStyle(NAV_BUTTON_CSS);
 
-	Button C_PI_login = new Button("LOGIN");
+	Button C_PI_login = new Button("ACCOUNT");
 	C_PI_login.setFont(TITLE_FONT);
 	C_PI_login.setStyle(NAV_BUTTON_CSS);
 	C_PI_login.setTextFill(RED);
@@ -599,50 +607,145 @@ public void start(Stage stage) throws Exception
 	C_PI_menu.getChildren().addAll(C_PI_logoBox, C_PI_orderNow, C_PI_cart, C_PI_login);
 	C_PI_menu.setStyle(NAV_BOX_CSS);
 
+	// css
+	String C_PI_cardinfobox_css = new String("-fx-background-color: #EBEBEB");
+
 
 	//===== Main Page Box =====//
+
+	// title
 	Label C_PIlabel = new Label("Payment Information");
 	C_PIlabel.setFont(TITLE_FONT);
+	VBox C_PI_title = new VBox(C_PIlabel);
+	C_PI_title.setStyle(TITLE_CSS);
 
+	// card number
 	TextField C_PI_cardNumber = new TextField();
 	C_PI_cardNumber.setFont(BODY_FONT);
+	C_PI_cardNumber.setStyle(C_PI_cardinfobox_css);
+
 	Label C_PI_numberLabel = new Label("Card Number");
 	C_PI_numberLabel.setFont(BODY_FONT);
 
-	HBox C_PI_cardBox = new HBox();
+	VBox C_PI_numBox = new VBox();
+	C_PI_numBox.getChildren().addAll(C_PI_cardNumber, C_PI_numberLabel);
+	C_PI_numBox.setStyle("-fx-padding: 0 0 30 0");
 
-	VBox C_PI_nameBox = new VBox();
+
+	// card name
 	TextField C_PI_cardName = new TextField();
 	C_PI_cardName.setFont(BODY_FONT);
+	C_PI_cardName.setStyle(C_PI_cardinfobox_css);
+
 	Label C_PI_nameLabel = new Label("Name");
 	C_PI_nameLabel.setFont(BODY_FONT);
+
+	VBox C_PI_nameBox = new VBox();
 	C_PI_nameBox.getChildren().addAll(C_PI_cardName, C_PI_nameLabel);
 
-	VBox C_PI_secBox = new VBox();
+	// security code
 	TextField C_PI_secCode = new TextField();
 	C_PI_secCode.setFont(BODY_FONT);
+	C_PI_secCode.setStyle(C_PI_cardinfobox_css);
+
 	Label C_PI_secLabel = new Label("Security Code");
 	C_PI_secLabel.setFont(BODY_FONT);
+
+	VBox C_PI_secBox = new VBox();
 	C_PI_secBox.getChildren().addAll(C_PI_secCode, C_PI_secLabel);
 
-	VBox C_PI_expBox = new VBox();
+	// expiration
 	TextField C_PI_expiration = new TextField();
 	C_PI_expiration.setFont(BODY_FONT);
+	C_PI_expiration.setStyle(C_PI_cardinfobox_css);
+
 	Label C_PI_expirLabel = new Label("Expiration");
 	C_PI_expirLabel.setFont(BODY_FONT);
+
+	VBox C_PI_expBox = new VBox();
 	C_PI_expBox.getChildren().addAll(C_PI_expiration, C_PI_expirLabel);
 
+	// horizontal styling
+	HBox C_PI_cardBox = new HBox();
 	C_PI_cardBox.getChildren().addAll(C_PI_nameBox, C_PI_secBox, C_PI_expBox);
+	C_PI_cardBox.setSpacing(20);
+
+	// white box
+	VBox C_PI_mainBox = new VBox();
+	C_PI_mainBox.getChildren().addAll(C_PI_title, C_PI_numBox, C_PI_cardBox);
+	C_PI_mainBox.setStyle(WHITEBOX_CSS);
 
 	//===== Creating the scene =====//
 	VBox C_PI_outerBox = new VBox();
 	C_PI_outerBox.setStyle(OUTER_BOX_CSS);
-	C_PI_outerBox.getChildren().addAll(C_PI_menu, C_PIlabel, C_PI_cardNumber, C_PI_numberLabel, C_PI_cardBox);
+	C_PI_outerBox.getChildren().addAll(C_PI_menu, C_PI_mainBox);
 
 	Scene CCardInfoScene = new Scene(C_PI_outerBox, 1600, 850);
 
 
 
+
+
+//============================= Customer Order Status =============================//
+
+	//----- Main Header Menu -----//
+	ImageView C_OS_logo = new ImageView(logo);
+	C_OS_logo.setFitHeight(75);
+	C_OS_logo.setFitWidth(196);
+
+	HBox C_OS_logoBox = new HBox();
+	C_OS_logoBox.getChildren().addAll(C_OS_logo);
+	C_OS_logoBox.setStyle(NAV_LOGO_HBOX_CSS);
+
+	Button C_OS_orderNow = new Button("ORDER NOW");
+	C_OS_orderNow.setFont(TITLE_FONT);
+	C_OS_orderNow.setStyle(NAV_BUTTON_CSS);
+
+	Button C_OS_cart = new Button("CART");
+	C_OS_cart.setFont(TITLE_FONT);
+	C_OS_cart.setStyle(NAV_BUTTON_CSS);
+
+	Button C_OS_login = new Button("ACCOUNT");
+	C_OS_login.setFont(TITLE_FONT);
+	C_OS_login.setStyle(NAV_BUTTON_CSS);
+	C_OS_login.setTextFill(RED);
+
+	//Main Header Menu HBox
+	HBox C_OS_menu = new HBox();
+	C_OS_menu.getChildren().addAll(C_AI_logoBox, C_AI_orderNow, C_AI_cart, C_AI_login);
+	C_OS_menu.setStyle(NAV_BOX_CSS);
+
+
+	//===== Main Page Box =====//
+
+	// title
+	Label C_OSLabel = new Label("Order Status");
+	C_OSLabel.setFont(TITLE_FONT);
+	VBox C_OS_title = new VBox(C_OSLabel);
+	C_OS_title.setStyle(TITLE_CSS);
+
+	// no orders
+	Label C_OS_noOrderLabel = new Label("You have no orders under your account!");
+	C_OS_noOrderLabel.setFont(SUB1_FONT);
+
+	VBox C_OS_noOrders = new VBox(C_OS_noOrderLabel);
+
+	// orders
+	VBox C_OS_orderList = new VBox();
+
+	ScrollPane C_OS_orders = new ScrollPane(C_OS_orderList);
+
+	// white box
+	VBox C_OS_mainBox = new VBox();
+	C_OS_mainBox.getChildren().addAll(C_OS_title);
+	C_OS_mainBox.setStyle(WHITEBOX_CSS);
+
+	//===== Creating the scene =====//
+	VBox C_OS_outerBox = new VBox();
+	C_OS_outerBox.setStyle(OUTER_BOX_CSS);
+	C_OS_outerBox.getChildren().addAll(C_OS_menu, C_OS_mainBox);
+
+	Scene COrderStatus = new Scene(C_OS_outerBox, 1600, 850);
 
 
 
@@ -671,7 +774,7 @@ public void start(Stage stage) throws Exception
 	E_AI_cart.setFont(TITLE_FONT);
 	E_AI_cart.setStyle(NAV_BUTTON_CSS);
 
-	Button E_AI_login = new Button("LOGIN");
+	Button E_AI_login = new Button("ACCOUNT");
 	E_AI_login.setFont(TITLE_FONT);
 	E_AI_login.setStyle(NAV_BUTTON_CSS);
 	E_AI_login.setTextFill(RED);
@@ -683,61 +786,79 @@ public void start(Stage stage) throws Exception
 
 
 	//===== Main Page Box =====//
+
+	// title
 	Label E_AILabel = new Label("ACCOUNT AND COUPONS");
 	E_AILabel.setFont(TITLE_FONT);
 
-	VBox E_AI_mainBox = new VBox();
-	
-	//appends all existing users to combobox
-	Scanner findName = new Scanner(new FileReader(TEXTFILE));
-	String currentLine = "";
-	String couponUsername = "";
-	ArrayList<String> couponUsernameList = new ArrayList<String>();
-	while(findName.hasNextLine()) {
-		currentLine = findName.nextLine();
-		if(currentLine.contains("username: ")) {
-			couponUsername = currentLine;
-			System.out.println(findName.nextLine());
-			if(findName.nextLine().contains("customer")) {
-				couponUsernameList.add(couponUsername.substring(couponUsername.lastIndexOf(" ") + 1));
-			}
-		}
-	}
-	
+	VBox E_AI_title = new VBox();
+	E_AI_title.getChildren().addAll(E_AILabel);
+	E_AI_title.setStyle(TITLE_CSS);
+
+	// employee user
 	Label E_AI_userLabel = new Label("Username");
 	E_AI_userLabel.setFont(SUB1_FONT);
-	ComboBox E_AI_userBox = new ComboBox(FXCollections.observableArrayList(couponUsernameList));
-	
-	VBox E_AI_coupon = new VBox();
+	Label E_AI_username = new Label("Username goes here");
+	E_AI_username.setFont(BODY_FONT);
 
+	VBox E_AI_userBox = new VBox();
+	E_AI_userBox.getChildren().addAll(E_AI_userLabel, E_AI_username);
+	E_AI_userBox.setAlignment(Pos.TOP_CENTER);
+	E_AI_userBox.setStyle("-fx-padding: 0 0 40 0");
+
+	// coupon user
 	Label E_AI_couponDist = new Label("Distribute Coupon");
 	E_AI_couponDist.setFont(SUB1_FONT);
 	ComboBox E_AI_couponField = new ComboBox();
 
+	VBox E_AI_cUserBox = new VBox();
+	E_AI_cUserBox.getChildren().addAll(E_AI_couponDist, E_AI_couponField);
+
+	// coupon code
 	Label E_AI_codeLabel = new Label("Coupon Code");
-	E_AI_codeLabel.setFont(SUB1_FONT);
+	E_AI_codeLabel.setFont(BODY_FONT);
 	TextField E_AI_code = new TextField();
 	E_AI_code.setFont(BODY_FONT);
 
-	Label E_AI_discLabel = new Label("Coupon Code");
-	E_AI_discLabel.setFont(SUB1_FONT);
+	HBox E_AI_codeBox = new HBox();
+	E_AI_codeBox.getChildren().addAll(E_AI_codeLabel, E_AI_code);
+	E_AI_codeBox.setSpacing(10);
+
+	// discount amount
+	Label E_AI_discLabel = new Label("Discount Amount");
+	E_AI_discLabel.setFont(BODY_FONT);
 	TextField E_AI_disc = new TextField();
 	E_AI_disc.setFont(BODY_FONT);
 
+	HBox E_AI_discBox = new HBox();
+	E_AI_discBox.getChildren().addAll(E_AI_discLabel, E_AI_disc);
+	E_AI_discBox.setSpacing(10);
+
+	// distribute button
 	Button E_AI_couponButton = new Button("Distribute");
 	E_AI_couponButton.setFont(BODY_FONT);
+	E_AI_couponButton.setStyle(BOXED_BUTTON_CSS);
 
-	E_AI_coupon.getChildren().addAll(E_AI_couponDist, E_AI_couponField, E_AI_codeLabel, E_AI_code, E_AI_discLabel, E_AI_disc, E_AI_couponButton);
+	//----- coupon info box -----//
+	VBox E_AI_coupon = new VBox();
+	E_AI_coupon.getChildren().addAll(E_AI_cUserBox, E_AI_codeBox, E_AI_discBox, E_AI_couponButton);
+	E_AI_coupon.setSpacing(10);
+	E_AI_coupon.setStyle(BOXED_BUTTON_CSS + "-fx-padding: 10 10 10 10");
 
+	//----- outer elements -----//
 	Button E_AI_logout = new Button("LOGOUT");
 	E_AI_logout.setFont(SUB1_FONT);
+	E_AI_logout.setStyle(UNDERLINE_BUTTON_CSS + "-fx-padding: 40 0 0 0");
 
-	E_AI_mainBox.getChildren().addAll(E_AI_userLabel, E_AI_userBox, E_AI_coupon, E_AI_logout);
+	// outer box
+	VBox E_AI_mainBox = new VBox();
+	E_AI_mainBox.getChildren().addAll(E_AI_title, E_AI_userBox, E_AI_coupon, E_AI_logout);
+	E_AI_mainBox.setStyle(WHITEBOX_CSS);
 
 	//===== Creating the scene =====//
 	VBox E_AI_outerBox = new VBox();
 	E_AI_outerBox.setStyle(OUTER_BOX_CSS);
-	E_AI_outerBox.getChildren().addAll(E_AI_menu, E_AILabel, E_AI_mainBox);
+	E_AI_outerBox.getChildren().addAll(E_AI_menu, E_AI_mainBox);
 
 	Scene EAccountScene = new Scene(E_AI_outerBox, 1600, 850);
 
@@ -763,7 +884,7 @@ public void start(Stage stage) throws Exception
 	E_EM_cart.setFont(TITLE_FONT);
 	E_EM_cart.setStyle(NAV_BUTTON_CSS);
 
-	Button E_EM_login = new Button("LOGIN");
+	Button E_EM_login = new Button("ACCOUNT");
 	E_EM_login.setFont(TITLE_FONT);
 	E_EM_login.setStyle(NAV_BUTTON_CSS);
 	E_EM_login.setTextFill(RED);
@@ -774,50 +895,63 @@ public void start(Stage stage) throws Exception
 	E_EM_menu.setStyle(NAV_BOX_CSS);
 
 
+	String E_EM_subMenu_css = "-fx-background-color: #FFFFFF;" +
+			"-fx-padding: 10 10 10 10;";
+
 	//===== Sub Menu Box =====//
-	HBox E_EM_subMenu = new HBox();
 	Button E_EM_saladButton = new Button("SALADS");
 	E_EM_saladButton.setFont(SUB1_FONT);
+	E_EM_saladButton.setStyle(BOXED_BUTTON_CSS);
 
 	Button E_EM_pastaButton = new Button("PASTA");
 	E_EM_pastaButton.setFont(SUB1_FONT);
+	E_EM_pastaButton.setStyle(BOXED_BUTTON_CSS);
 
 	Button E_EM_paniniButton = new Button("PANINI");
 	E_EM_paniniButton.setFont(SUB1_FONT);
+	E_EM_paniniButton.setStyle(BOXED_BUTTON_CSS);
 
 	Button E_EM_pizzaButton = new Button("PIZZA");
 	E_EM_pizzaButton.setFont(SUB1_FONT);
+	E_EM_pizzaButton.setStyle(BOXED_BUTTON_CSS);
 
-	TextField E_EM_searchField = new TextField();
-	E_EM_searchField.setPromptText("SEARCH");
-	E_EM_searchField.setFont(SUB1_FONT);
+	Button E_EM_addItem = new Button("ADD ITEM");
+	E_EM_addItem.setFont(SUB1_FONT);
+	E_EM_addItem.setStyle(BOXED_BUTTON_CSS);
+	E_EM_addItem.setTextFill(RED);
 
-	E_EM_subMenu.getChildren().addAll(E_EM_saladButton, E_EM_pastaButton, E_EM_paniniButton, E_EM_pizzaButton, E_EM_searchField);
+	HBox E_EM_subMenu = new HBox();
+	E_EM_subMenu.getChildren().addAll(E_EM_saladButton, E_EM_pastaButton, E_EM_paniniButton, E_EM_pizzaButton, E_EM_addItem);
+	E_EM_subMenu.setStyle(E_EM_subMenu_css);
+	E_EM_subMenu.setAlignment(Pos.TOP_RIGHT);
+	E_EM_subMenu.setSpacing(20);
 
 
 	//===== Main Body Box =====//
-	VBox E_EM_mainBodyBox = new VBox();
+
 
 	Label E_EM_saladLabel = new Label("SALAD");
 	E_EM_saladLabel.setFont(TITLE_FONT);
-	TableView E_EM_salads = new TableView();
+	GridPane E_EM_salads = new GridPane();
 
 	Label E_EM_pastaLabel = new Label("PASTA");
 	E_EM_pastaLabel.setFont(TITLE_FONT);
-	TableView E_EM_pastas = new TableView();
+	GridPane E_EM_pastas = new GridPane();
 
 	Label E_EM_paniniLabel = new Label("PANINI");
 	E_EM_paniniLabel.setFont(TITLE_FONT);
-	TableView E_EM_paninis = new TableView();
+	GridPane E_EM_paninis = new GridPane();
 
 	Label E_EM_pizzaLabel = new Label("PIZZA");
 	E_EM_pizzaLabel.setFont(TITLE_FONT);
-	TableView E_EM_pizzas = new TableView();
+	GridPane E_EM_pizzas = new GridPane();
 
+	VBox E_EM_mainBodyBox = new VBox();
 	E_EM_mainBodyBox.getChildren().addAll(E_EM_saladLabel, E_EM_salads, E_EM_pastaLabel, E_EM_pastas, E_EM_paniniLabel, E_EM_paninis, E_EM_pizzaLabel, E_EM_pizzas);
 
 	ScrollPane E_EM_mainBody = new ScrollPane();
 	E_EM_mainBody.setContent(E_EM_mainBodyBox);
+	E_EM_mainBody.setStyle(WHITEBOX_CSS);
 
 
 	//===== Creating the scene =====//
@@ -826,7 +960,6 @@ public void start(Stage stage) throws Exception
 	E_EM_outerBox.getChildren().addAll(E_EM_menu, E_EM_subMenu, E_EM_mainBody);
 
 	Scene EMenuScene = new Scene(E_EM_outerBox, 1600, 850);
-
 
 
 
@@ -1010,6 +1143,43 @@ public void start(Stage stage) throws Exception
 
 	//stage.setScene(EMenuScene);
 	//stage.setScene(EAccountScene);
+	
+	//code from customer menu that was moved
+	if (currentCustomer.getCart().size() == 0)
+	{
+		C_CA_noCart.setText("!");
+		C_CA_noItems.setText("No items are in your cart!");
+		
+	}
+	else
+	{
+		for (int i = 0; i < currentCustomer.getCart().size(); i++ ) // looping through the cart
+		{
+			if (checkDuplicate.contains(currentCustomer.getCart().get(i).getItemName()) == false) {
+				cartItems += currentCustomer.getCart().get(i).getItemName() + "\t" + currentCustomer.getCart().get(i).getPrice()
+						 + "\t" + currentCustomer.getAmountOfItem(currentCustomer.getCart().get(i)) + "\n";
+				checkDuplicate.add(currentCustomer.getCart().get(i).getItemName());
+			}
+		}
+		C_CA_yesItems.setText(cartItems);
+	}
+	
+	//code from employee account page
+	//appends all existing users to combobox
+	Scanner findName = new Scanner(new FileReader(TEXTFILE));
+	String currentLine = "";
+	String couponUsername = "";
+	ArrayList<String> couponUsernameList = new ArrayList<String>();
+	while(findName.hasNextLine()) {
+		currentLine = findName.nextLine();
+		if(currentLine.contains("username: ")) {
+			couponUsername = currentLine;
+			System.out.println(findName.nextLine());
+			if(findName.nextLine().contains("customer")) {
+				couponUsernameList.add(couponUsername.substring(couponUsername.lastIndexOf(" ") + 1));
+			}
+		}
+	}
 
 }
 
