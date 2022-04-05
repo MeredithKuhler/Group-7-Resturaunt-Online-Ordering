@@ -1,8 +1,9 @@
-package com.example.cse360_group7;
+package application;
 
 //import com.sun.javafx.stage.EmbeddedWindow;
 import javafx.event.EventHandler;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -25,6 +26,9 @@ import java.text.AttributedCharacterIterator;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+
+//All instances of reading and writing text files were created with the assistance of this stackoverflow answer:
+//https://stackoverflow.com/questions/1625234/how-to-append-text-to-an-existing-file-in-java
 
 public class JavaFX extends Application
 {
@@ -97,16 +101,19 @@ public void start(Stage stage) throws Exception
 	Image logo = new Image(".\\logo.png"); //width = 75, height = 196
 	
 	//----- Global Vars -----//
+	final String CCINFOFILE = ".\\src\\ccinfo.txt";
 	final String TEXTFILE = ".\\src\\accountinfo.txt";
+	final String COUPONFILE = ".\\src\\coupons.txt";
 	Customer currentCustomer = new Customer("guest", "guest");
 	Employee admin = new Employee("admin", "admin");
-	MenuItem pizza = new MenuItem("Pizza", 2000, 10.00);
-	MenuItem pasta = new MenuItem("Pasta", 1000, 10.00);
-	currentCustomer.addMenuItem(pizza);
-	currentCustomer.addMenuItem(pasta);
-	currentCustomer.addMenuItem(pizza);
-	currentCustomer.addMenuItem(pasta);
+	ArrayList<MenuItem> displayedMenu = new ArrayList<MenuItem>();
+	int totalETA = 0;
 	
+	//preset coupons
+	ArrayList<Coupon> couponList = new ArrayList<Coupon>();
+	couponList.add(new Coupon("2abt3", 0.15f));
+	couponList.add(new Coupon("03bsd", 0.5f));
+	couponList.add(new Coupon("25hac", 0.25f));
  //============================= Log In =============================//
 
 	//----- Main Header Menu -----//
@@ -327,7 +334,7 @@ public void start(Stage stage) throws Exception
 	C_AI_cart.setFont(TITLE_FONT);
 	C_AI_cart.setStyle(NAV_BUTTON_CSS);
 
-	Button C_AI_login = new Button("ACCOUNT");
+	Button C_AI_login = new Button("LOGIN");
 	C_AI_login.setFont(TITLE_FONT);
 	C_AI_login.setStyle(NAV_BUTTON_CSS);
 	C_AI_login.setTextFill(RED);
@@ -417,7 +424,7 @@ public void start(Stage stage) throws Exception
 	C_CA_cart.setStyle(NAV_BUTTON_CSS);
 	C_CA_cart.setTextFill(RED);
 
-	Button C_CA_login = new Button("ACCOUNT");
+	Button C_CA_login = new Button("LOGIN");
 	C_CA_login.setFont(TITLE_FONT);
 	C_CA_login.setStyle(NAV_BUTTON_CSS);
 
@@ -442,12 +449,18 @@ public void start(Stage stage) throws Exception
 	VBox C_CA_cartBox = new VBox();
 
 	//----- cart -----//
-	Label C_CA_noCart = new Label("!");
-	C_CA_noCart.setFont(TITLE_FONT);
 
-	Label C_CA_noItems = new Label("No items are in your cart!");
-	C_CA_noItems.setFont(BODY_FONT);
+	Label C_CA_itemStatus = new Label("!\nNo items are in your cart!");
+	C_CA_itemStatus.setFont(BODY_FONT);
 
+	Label C_CA_yesItems = new Label("");
+	C_CA_yesItems.setFont(BODY_FONT);
+	
+	ComboBox C_CA_removeItemBox = new ComboBox();
+	Button C_CA_removeItemButton = new Button("Remove Item");
+	
+	C_CA_removeItemButton.setFont(BODY_FONT);
+	
 	Button C_CA_newOrder = new Button("Order Now");
 	C_CA_newOrder.setFont(BODY_FONT);
 	C_CA_newOrder.setStyle(BOXED_BUTTON_CSS);
@@ -461,8 +474,8 @@ public void start(Stage stage) throws Exception
 	C_CA_cartItems.setSpacing(20);
 	//empty cart
 	VBox C_CA_emptyCart = new VBox();
-	C_CA_emptyCart.getChildren().addAll(C_CA_noCart, C_CA_noItems, C_CA_newOrder);
-
+	C_CA_emptyCart.getChildren().addAll(C_CA_itemStatus, C_CA_yesItems, C_CA_removeItemBox, C_CA_removeItemButton, C_CA_newOrder);
+	
 
 
 
@@ -502,7 +515,7 @@ public void start(Stage stage) throws Exception
 	C_CM_cart.setFont(TITLE_FONT);
 	C_CM_cart.setStyle(NAV_BUTTON_CSS);
 
-	Button C_CM_login = new Button("ACCOUNT");
+	Button C_CM_login = new Button("LOGIN");
 	C_CM_login.setFont(TITLE_FONT);
 	C_CM_login.setStyle(NAV_BUTTON_CSS);
 
@@ -567,12 +580,15 @@ public void start(Stage stage) throws Exception
 	ScrollPane C_CM_mainBody = new ScrollPane();
 	C_CM_mainBody.setContent(C_CM_mainBodyBox);
 	C_CM_mainBody.setStyle(WHITEBOX_CSS);
-
-
+	
+	ComboBox C_CM_orderSelection = new ComboBox();
+	Button C_CM_addToCart = new Button();
+	
+	C_CM_addToCart.setText("Add to cart");
 	//===== Creating the scene =====//
 	VBox C_CM_outerBox = new VBox();
 	C_CM_outerBox.setStyle(OUTER_BOX_CSS);
-	C_CM_outerBox.getChildren().addAll(C_CM_menu, C_CM_subMenu, C_CM_mainBody);
+	C_CM_outerBox.getChildren().addAll(C_CM_menu, C_CM_subMenu, C_CM_mainBody, C_CM_orderSelection, C_CM_addToCart);
 
 	Scene CMenuScene = new Scene(C_CM_outerBox, 1600, 850);
 
@@ -661,24 +677,31 @@ public void start(Stage stage) throws Exception
 
 	Label C_PI_expirLabel = new Label("Expiration");
 	C_PI_expirLabel.setFont(BODY_FONT);
-
+	
 	VBox C_PI_expBox = new VBox();
 	C_PI_expBox.getChildren().addAll(C_PI_expiration, C_PI_expirLabel);
-
+	
 	// horizontal styling
 	HBox C_PI_cardBox = new HBox();
 	C_PI_cardBox.getChildren().addAll(C_PI_nameBox, C_PI_secBox, C_PI_expBox);
 	C_PI_cardBox.setSpacing(20);
-
+	
+	Label C_PI_couponLabel = new Label("Select Coupon: ");
+	ComboBox C_PI_couponBox = new ComboBox();
+	Button C_PI_applyCoupon = new Button("Apply Coupon");
+	Label C_PI_totalPrice = new Label("Total price: " + currentCustomer.getCartPrice());
 	// white box
 	VBox C_PI_mainBox = new VBox();
-	C_PI_mainBox.getChildren().addAll(C_PI_title, C_PI_numBox, C_PI_cardBox);
+	C_PI_mainBox.getChildren().addAll(C_PI_title, C_PI_numBox, C_PI_cardBox, C_PI_couponLabel, C_PI_couponBox, C_PI_applyCoupon, C_PI_totalPrice);
 	C_PI_mainBox.setStyle(WHITEBOX_CSS);
-
+	
+	//order now button
+	Button C_PI_confirmOrder = new Button("Confirm Order");
+	
 	//===== Creating the scene =====//
 	VBox C_PI_outerBox = new VBox();
 	C_PI_outerBox.setStyle(OUTER_BOX_CSS);
-	C_PI_outerBox.getChildren().addAll(C_PI_menu, C_PI_mainBox);
+	C_PI_outerBox.getChildren().addAll(C_PI_menu, C_PI_mainBox, C_PI_confirmOrder);
 
 	Scene CCardInfoScene = new Scene(C_PI_outerBox, 1600, 850);
 
@@ -723,30 +746,33 @@ public void start(Stage stage) throws Exception
 	C_OSLabel.setFont(TITLE_FONT);
 	VBox C_OS_title = new VBox(C_OSLabel);
 	C_OS_title.setStyle(TITLE_CSS);
-
+	
+	Label C_OSOrder1 = new Label("Customer 1\t 20 minutes");
+	Label C_OSOrder2 = new Label("Customer 2\t 50 minutes");
+	Label C_OSOrder3 = new Label("");
 	// no orders
 	Label C_OS_noOrderLabel = new Label("You have no orders under your account!");
 	C_OS_noOrderLabel.setFont(SUB1_FONT);
-
+	
 	VBox C_OS_noOrders = new VBox(C_OS_noOrderLabel);
 
 	// orders
 	VBox C_OS_orderList = new VBox();
 
 	ScrollPane C_OS_orders = new ScrollPane(C_OS_orderList);
-
+	
 	// white box
 	VBox C_OS_mainBox = new VBox();
-	C_OS_mainBox.getChildren().addAll(C_OS_title);
+	C_OS_mainBox.getChildren().addAll(C_OS_title, C_OSOrder1, C_OSOrder2, C_OSOrder3);
 	C_OS_mainBox.setStyle(WHITEBOX_CSS);
 
 	//===== Creating the scene =====//
 	VBox C_OS_outerBox = new VBox();
 	C_OS_outerBox.setStyle(OUTER_BOX_CSS);
 	C_OS_outerBox.getChildren().addAll(C_OS_menu, C_OS_mainBox);
-
+	
 	Scene COrderStatus = new Scene(C_OS_outerBox, 1600, 850);
-
+	
 
 
 	//==============================================================================================================
@@ -805,14 +831,32 @@ public void start(Stage stage) throws Exception
 	E_AI_userBox.getChildren().addAll(E_AI_userLabel, E_AI_username);
 	E_AI_userBox.setAlignment(Pos.TOP_CENTER);
 	E_AI_userBox.setStyle("-fx-padding: 0 0 40 0");
-
+	
 	// coupon user
 	Label E_AI_couponDist = new Label("Distribute Coupon");
 	E_AI_couponDist.setFont(SUB1_FONT);
-	ComboBox E_AI_couponField = new ComboBox();
-
+	ComboBox E_AI_couponField = new ComboBox(FXCollections.observableArrayList(couponList));
+	
+	//appends all existing users to combobox
+		Scanner findName = new Scanner(new FileReader(TEXTFILE));
+		String currentLine = "";
+		String couponUsername = "";
+		ArrayList<String> couponUsernameList = new ArrayList<String>();
+		while(findName.hasNextLine()) {
+			currentLine = findName.nextLine();
+			if(currentLine.contains("username: ")) {
+				couponUsername = currentLine;
+				findName.nextLine();
+				if(findName.nextLine().contains("customer")) {
+					couponUsernameList.add(couponUsername.substring(couponUsername.lastIndexOf(" ") + 1));
+				}
+			}
+		}
+		
+	ComboBox E_AI_userField = new ComboBox(FXCollections.observableArrayList(couponUsernameList));
+	
 	VBox E_AI_cUserBox = new VBox();
-	E_AI_cUserBox.getChildren().addAll(E_AI_couponDist, E_AI_couponField);
+	E_AI_cUserBox.getChildren().addAll(E_AI_couponDist, E_AI_couponField, E_AI_userField);
 
 	// coupon code
 	Label E_AI_codeLabel = new Label("Coupon Code");
@@ -979,19 +1023,27 @@ public void start(Stage stage) throws Exception
 	 * Might not be able to make multiple accounts at once
 	*/
 	//If things are broken make sure you have the accountinfo.txt file. Also make sure the directory is set up correctly.
-		
+ 
 	LI_createAcc.setOnMouseClicked((new EventHandler<javafx.scene.input.MouseEvent>() {
 		//Reading from text file
 		String currentline = "";
 		Scanner findName = new Scanner(new FileReader(TEXTFILE));
 		Boolean usernameExists = true;
-		
+ 
         //Writing to text file
         FileWriter fw = new FileWriter(TEXTFILE, true);
         BufferedWriter bw = new BufferedWriter(fw);
         PrintWriter out = new PrintWriter(bw);
         @Override
         public void handle(javafx.scene.input.MouseEvent e) {
+        	//code block allows multiple accounts to be created in same instance
+	        try {
+				fw = new FileWriter(TEXTFILE, true);
+		        bw = new BufferedWriter(fw);
+				out = new PrintWriter(bw);
+			} catch (IOException e1) {
+				System.out.println("Unexpected error when writing to file. createacc");
+			}
             if(LI_userField.getText() == "" || LI_passField.getText() == "") {
                 System.out.println("Error: Missing username/password");
                 LI_error.setText("Error: Missing username/password");
@@ -1017,6 +1069,7 @@ public void start(Stage stage) throws Exception
             		out.append("username: " + LI_userField.getText() +"\n");
             		out.append("password: " + LI_passField.getText() + "\n");
             		out.append("accounttype: customer\n");
+            		//insert credit card stuff
             		currentCustomer.setUsername(LI_userField.getText());
             		currentCustomer.setPassword(LI_passField.getText());
             		C_AI_user.setText(currentCustomer.getUsername());
@@ -1034,11 +1087,12 @@ public void start(Stage stage) throws Exception
             currentline = "";
         }
 	}));
-	
+ 
 	//Login
 	LI_signIn.setOnMouseClicked((new EventHandler<javafx.scene.input.MouseEvent>() {
 		String currentline = "";
 		Scanner findName = new Scanner(new FileReader(TEXTFILE));
+		Scanner findCoupon = new Scanner(new FileReader(COUPONFILE));
 		Boolean userExists = true;
 		public void handle(javafx.scene.input.MouseEvent e) {
 			try {
@@ -1063,16 +1117,39 @@ public void start(Stage stage) throws Exception
                 }
             	if(userExists) {
             		System.out.println("Pass");
-            		if(findName.nextLine().equals("accounttype: customer")) {
+            		if(findName.nextLine().contains("accounttype: customer")) {
                 		currentCustomer.setUsername(LI_userField.getText());
                 		currentCustomer.setPassword(LI_passField.getText());
                 		LI_userField.setText("");
                 		LI_passField.setText("");
                 		C_AI_user.setText(currentCustomer.getUsername());
+                		//Checks if user has any coupons upon login
+                		ArrayList<String> couponCodeList = new ArrayList<String>();
+                		System.out.println(currentCustomer.getUsername());
+ 
+            			//appends all coupons for user
+
+            			String currentLine = "";
+            			while(findCoupon.hasNextLine()) {
+            				currentLine = findCoupon.nextLine();
+            				if(currentLine.contains("Username: " + currentCustomer.getUsername())) {
+            					couponCodeList.add(findCoupon.nextLine() + " " + findCoupon.nextLine());
+            				}
+ 
+            			}
+            			C_PI_couponBox.setItems(FXCollections.observableArrayList(couponCodeList));
+            			C_CM_login.setText("ACCOUNT");
+            			C_AI_login.setText("ACCOUNT");
+            			C_CM_login.setText("ACCOUNT");
+            			C_PI_login.setText("ACCOUNT");
+            			C_CA_login.setText("ACCOUNT");
             			stage.setScene(CAccountInfoScene);
             		}
-            		else
+            		else {
+            			E_EM_login.setText("ACCOUNT");
+            			E_AI_login.setText("ACCOUNT");
             			stage.setScene(EAccountScene);
+            		}
             		LI_error.setText("");
             	}
             	else {
@@ -1082,25 +1159,36 @@ public void start(Stage stage) throws Exception
             currentline = "";
 		}
 	}));
-	
+ 
 	//logout
 	C_AI_Logout.setOnMouseClicked((new EventHandler<javafx.scene.input.MouseEvent>() {
 		public void handle(javafx.scene.input.MouseEvent e) {
 			stage.setScene(SignInScene);
-			currentCustomer.setUsername("Guest");
-			currentCustomer.setPassword("Guest");
+			currentCustomer.setUsername("guest");
+			currentCustomer.setPassword("guest");
+			C_CM_login.setText("LOGIN");
+			C_AI_login.setText("LOGIN");
+			C_CM_login.setText("LOGIN");
+			C_PI_login.setText("LOGIN");
+			C_CA_login.setText("LOGIN");
 		}
 	}));
-	
+ 
 	E_AI_logout.setOnMouseClicked((new EventHandler<javafx.scene.input.MouseEvent>() {
 		public void handle(javafx.scene.input.MouseEvent e) {
 			stage.setScene(SignInScene);
-			currentCustomer.setUsername("Guest");
-			currentCustomer.setPassword("Guest");
+			currentCustomer.setUsername("guest");
+			currentCustomer.setPassword("guest");
     		LI_userField.setText("");
     		LI_passField.setText("");
+			C_CM_login.setText("LOGIN");
+			C_AI_login.setText("LOGIN");
+			C_CM_login.setText("LOGIN");
+			C_PI_login.setText("LOGIN");
+			C_CA_login.setText("LOGIN");
 		}
 	}));
+ 
 	//coupon distribution
 	//cart
 	C_AI_cart.setOnMouseClicked((new EventHandler<javafx.scene.input.MouseEvent>() {
@@ -1109,13 +1197,289 @@ public void start(Stage stage) throws Exception
 		}
 	}));
 	
-	//this is for when u click the remove item button in the cart for customers
-	//need to find a way to re-render the updated cart since we will be removing an item by the end of the method
+	
+	C_AI_cart.setOnMouseClicked((new EventHandler<javafx.scene.input.MouseEvent>() {
+		String cartItems = "";
+		ArrayList<String> checkDuplicate = new ArrayList<String>();
+
+		public void handle(javafx.scene.input.MouseEvent e) {
+			cartItems = "";
+			stage.setScene(CCartScene);
+			if (currentCustomer.getCart().size() == 0)
+			{
+				C_CA_itemStatus.setText("!\nNo items are in your cart!");
+		 
+			}
+			else
+			{
+				for (int i = 0; i < currentCustomer.getCart().size(); i++ ) // looping through the cart
+				{
+					if (checkDuplicate.contains(currentCustomer.getCart().get(i).getItemName()) == false) {
+						cartItems += currentCustomer.getCart().get(i).getItemName() + "\t" + currentCustomer.getCart().get(i).getPrice()
+								 + "\t" + currentCustomer.getAmountOfItem(currentCustomer.getCart().get(i)) + "\n";
+						checkDuplicate.add(currentCustomer.getCart().get(i).getItemName());
+					}
+				}
+					C_CA_itemStatus.setText(cartItems);
+					C_CA_removeItemBox.setItems(FXCollections.observableArrayList(checkDuplicate));
+			}
+		}
+	}));
+ 
+	C_AI_orderNow.setOnMouseClicked((new EventHandler<javafx.scene.input.MouseEvent>() {
+		public void handle(javafx.scene.input.MouseEvent e) {
+			stage.setScene(CMenuScene);
+		}
+	}));
+ 
+	C_AI_login.setOnMouseClicked((new EventHandler<javafx.scene.input.MouseEvent>() {
+		public void handle(javafx.scene.input.MouseEvent e) {
+			if(currentCustomer.getUsername() == "guest") {
+				stage.setScene(SignInScene);
+			}
+			else {
+				stage.setScene(CAccountInfoScene);
+			}
+		}
+	}));
+	
+	//cart button in cart scene -- functionally useless
+	C_CA_cart.setOnMouseClicked((new EventHandler<javafx.scene.input.MouseEvent>() {
+		public void handle(javafx.scene.input.MouseEvent e) {
+			stage.setScene(CCartScene);
+		}
+	}));
+ 
+	C_CA_orderNow.setOnMouseClicked((new EventHandler<javafx.scene.input.MouseEvent>() {
+		public void handle(javafx.scene.input.MouseEvent e) {
+			stage.setScene(CMenuScene);
+		}
+	}));
+ 
+	C_CA_login.setOnMouseClicked((new EventHandler<javafx.scene.input.MouseEvent>() {
+		public void handle(javafx.scene.input.MouseEvent e) {
+			if(currentCustomer.getUsername() == "guest") {
+				stage.setScene(SignInScene);
+			}
+			else {
+				stage.setScene(CAccountInfoScene);
+			}
+		}
+	}));
+ 
+	C_CM_cart.setOnMouseClicked((new EventHandler<javafx.scene.input.MouseEvent>() {
+		String cartItems = "";
+		ArrayList<String> checkDuplicate = new ArrayList<String>();
+		public void handle(javafx.scene.input.MouseEvent e) {
+			stage.setScene(CCartScene);
+			if (currentCustomer.getCart().size() == 0)
+			{
+				C_CA_itemStatus.setText("!\nNo items are in your cart!");
+		 
+			}
+			else
+			{
+				for (int i = 0; i < currentCustomer.getCart().size(); i++ ) // looping through the cart
+				{
+					if (checkDuplicate.contains(currentCustomer.getCart().get(i).getItemName()) == false) {
+						cartItems += currentCustomer.getCart().get(i).getItemName() + "\t" + currentCustomer.getCart().get(i).getPrice()
+								 + "\t" + currentCustomer.getAmountOfItem(currentCustomer.getCart().get(i)) + "\n";
+						checkDuplicate.add(currentCustomer.getCart().get(i).getItemName());
+					}
+				}
+					C_CA_itemStatus.setText(cartItems);
+					C_CA_removeItemBox.setItems(FXCollections.observableArrayList(checkDuplicate));
+			}
+		}
+	}));
+ 
+	C_CM_orderNow.setOnMouseClicked((new EventHandler<javafx.scene.input.MouseEvent>() {
+		public void handle(javafx.scene.input.MouseEvent e) {
+			stage.setScene(CMenuScene);
+		}
+	}));
+ 
+	C_CM_login.setOnMouseClicked((new EventHandler<javafx.scene.input.MouseEvent>() {
+		public void handle(javafx.scene.input.MouseEvent e) {
+			if(currentCustomer.getUsername() == "guest") {
+				stage.setScene(SignInScene);
+			}
+			else {
+				stage.setScene(CAccountInfoScene);
+			}
+		}
+	}));
+ 
+	LI_cart.setOnMouseClicked((new EventHandler<javafx.scene.input.MouseEvent>() {
+		String cartItems = "";
+		ArrayList<String> checkDuplicate = new ArrayList<String>();
+		public void handle(javafx.scene.input.MouseEvent e) {
+			cartItems = "";
+			stage.setScene(CCartScene);
+			if (currentCustomer.getCart().size() == 0)
+			{
+				C_CA_itemStatus.setText("!\nNo items are in your cart!");
+		 
+			}
+			else
+			{
+				for (int i = 0; i < currentCustomer.getCart().size(); i++ ) // looping through the cart
+				{
+					if (checkDuplicate.contains(currentCustomer.getCart().get(i).getItemName()) == false) {
+						cartItems += currentCustomer.getCart().get(i).getItemName() + "\t" + currentCustomer.getCart().get(i).getPrice()
+								 + "\t" + currentCustomer.getAmountOfItem(currentCustomer.getCart().get(i)) + "\n";
+						checkDuplicate.add(currentCustomer.getCart().get(i).getItemName());
+					}
+				}
+					C_CA_itemStatus.setText(cartItems);
+					C_CA_removeItemBox.setItems(FXCollections.observableArrayList(checkDuplicate));
+			}
+		}
+	}));
+ 
+	LI_orderNow.setOnMouseClicked((new EventHandler<javafx.scene.input.MouseEvent>() {
+		public void handle(javafx.scene.input.MouseEvent e) {
+			stage.setScene(CMenuScene);
+		}
+	}));
+ 
+	LI_login.setOnMouseClicked((new EventHandler<javafx.scene.input.MouseEvent>() {
+		public void handle(javafx.scene.input.MouseEvent e) {
+			if(currentCustomer.getUsername() == "guest") {
+				stage.setScene(SignInScene);
+			}
+			else {
+				stage.setScene(CAccountInfoScene);
+			}
+		}
+	}));
+ 
+	C_CM_login.setOnMouseClicked((new EventHandler<javafx.scene.input.MouseEvent>() {
+		public void handle(javafx.scene.input.MouseEvent e) {
+			if(currentCustomer.getUsername() == "guest") {
+				stage.setScene(SignInScene);
+			}
+			else {
+				stage.setScene(CAccountInfoScene);
+			}
+		}
+	}));
+ 
+	E_AI_orderNow.setOnMouseClicked((new EventHandler<javafx.scene.input.MouseEvent>() {
+		public void handle(javafx.scene.input.MouseEvent e) {
+			stage.setScene(EMenuScene);
+		}
+	}));
+ 
+	E_AI_login.setOnMouseClicked((new EventHandler<javafx.scene.input.MouseEvent>() {
+		public void handle(javafx.scene.input.MouseEvent e) {
+			stage.setScene(EAccountScene);
+		}
+	}));
+ 
+	E_EM_orderNow.setOnMouseClicked((new EventHandler<javafx.scene.input.MouseEvent>() {
+		public void handle(javafx.scene.input.MouseEvent e) {
+			stage.setScene(EMenuScene);
+		}
+	}));
+ 
+	E_EM_login.setOnMouseClicked((new EventHandler<javafx.scene.input.MouseEvent>() {
+		public void handle(javafx.scene.input.MouseEvent e) {
+			stage.setScene(EAccountScene);
+		}
+	}));
+ 
+	//Preset menu items
+	
+	MenuItem pizza1 = new MenuItem("Pizza1", "2000", 10.00, 10, "https://i.imgur.com/kUT27sU.png");
+	MenuItem pizza2 = new MenuItem("Pizza2", "2000", 10.00, 10, "https://i.imgur.com/kzvqJBn.png");
+	MenuItem pasta1 = new MenuItem("Pasta1", "1000", 10.00, 20, "https://i.imgur.com/r0L2FBd.png");
+	MenuItem pasta2 = new MenuItem("Pasta2", "1000", 10.00, 20, "https://i.imgur.com/GccCxBo.png");
+	MenuItem salad1 = new MenuItem("Salad1", "500", 15.00, 12, "https://i.imgur.com/NE1wNlB.png");
+	MenuItem salad2 = new MenuItem("Salad2", "500", 15.00, 12, "https://i.imgur.com/fMcfFem.png");
+	MenuItem panini1 = new MenuItem("Panini1", "750", 12.00, 14, "https://i.imgur.com/7bNzak6.png");
+	MenuItem panini2 = new MenuItem("Panini2", "750", 12.00, 13, "https://i.imgur.com/Ua7PRro.png");
+
+	displayedMenu.add(pizza1);
+	displayedMenu.add(pizza2);
+	displayedMenu.add(pasta1);
+	displayedMenu.add(pasta2);
+	displayedMenu.add(salad1);
+	displayedMenu.add(salad2);
+	displayedMenu.add(panini1);
+	displayedMenu.add(panini2);
+
+	C_CM_pizzas.add(new ImageView(new Image(pizza1.getImage())), 0, 1);
+	C_CM_pizzas.add(new ImageView(new Image(pizza2.getImage())), 1, 1);
+	C_CM_pizzas.add(new Label(pizza1.getItemName()), 0, 2);
+	C_CM_pizzas.add(new Label(pizza2.getItemName()), 1, 2);
+	C_CM_pizzas.add(new Label("Price: $" + String.valueOf(pizza1.getPrice())), 0, 3);
+	C_CM_pizzas.add(new Label("Price: $" + String.valueOf(pizza2.getPrice())), 1, 3);
+	C_CM_pizzas.add(new Label("Ingredients: dough, cheese, tomato"), 0, 4);
+	C_CM_pizzas.add(new Label("Ingredients: dough, cheese, tomato"), 1, 4);
+	
+	C_CM_pastas.add(new ImageView(new Image(pasta1.getImage())), 0, 1);
+	C_CM_pastas.add(new ImageView(new Image(pasta2.getImage())), 1, 1);
+	C_CM_pastas.add(new Label(pasta1.getItemName()), 0, 2);
+	C_CM_pastas.add(new Label(pasta2.getItemName()), 1, 2);
+	C_CM_pastas.add(new Label("Price: $" + String.valueOf(pasta1.getPrice())), 0, 3);
+	C_CM_pastas.add(new Label("Price: $" + String.valueOf(pasta2.getPrice())), 1, 3);
+	C_CM_pastas.add(new Label("Ingredients: flour, egg, vegetable juice, spices"), 0, 4);
+	C_CM_pastas.add(new Label("Ingredients: flour, egg, vegetable juice, spices"), 1, 4);
+	
+	C_CM_paninis.add(new ImageView(new Image(panini1.getImage())), 0, 1);
+	C_CM_paninis.add(new ImageView(new Image(panini2.getImage())), 1, 1);
+	C_CM_paninis.add(new Label(panini1.getItemName()), 0, 2);
+	C_CM_paninis.add(new Label(panini2.getItemName()), 1, 2);
+	C_CM_paninis.add(new Label("Price: $" + String.valueOf(panini1.getPrice())), 0, 3);
+	C_CM_paninis.add(new Label("Price: $" + String.valueOf(panini2.getPrice())), 1, 3);
+	C_CM_paninis.add(new Label("Ingredients: bread, chese, chicken"), 0, 4);
+	C_CM_paninis.add(new Label("Ingredients: bread, chese, beef"), 1, 4);
+	
+	C_CM_salads.add(new ImageView(new Image(salad1.getImage())), 0, 1);
+	C_CM_salads.add(new ImageView(new Image(salad2.getImage())), 1, 1);
+	C_CM_salads.add(new Label(salad1.getItemName()), 0, 2);
+	C_CM_salads.add(new Label(salad2.getItemName()), 1, 2);
+	C_CM_salads.add(new Label("Price: $" + String.valueOf(salad1.getPrice())), 0, 3);
+	C_CM_salads.add(new Label("Price: $" + String.valueOf(salad2.getPrice())), 1, 3);
+	C_CM_salads.add(new Label("Ingredients: lettuce, tomato, olive oil"), 0, 4);
+	C_CM_salads.add(new Label("Ingredients: lettuce, tomato, olive oil"), 1, 4);
+	
+	//adding menu items to combobox
+	ArrayList<String> menuItemNames = new ArrayList<String>();
+	menuItemNames.add(salad1.getItemName());
+	menuItemNames.add(salad2.getItemName());
+	menuItemNames.add(pasta1.getItemName());
+	menuItemNames.add(pasta2.getItemName());
+	menuItemNames.add(panini1.getItemName());
+	menuItemNames.add(panini2.getItemName());
+	menuItemNames.add(pizza1.getItemName());
+	menuItemNames.add(pizza2.getItemName());
+	C_CM_orderSelection.setItems(FXCollections.observableArrayList(menuItemNames));
+	
+	C_CM_addToCart.setOnMouseClicked((new EventHandler<javafx.scene.input.MouseEvent>() {
+		public void handle(javafx.scene.input.MouseEvent e) {
+			if(C_CM_orderSelection.getValue() != null) {
+				for(int i = 0; i < displayedMenu.size(); i++) {
+					if(displayedMenu.get(i).getItemName() == C_CM_orderSelection.getValue()) {
+						currentCustomer.addMenuItem(displayedMenu.get(i));
+					}
+				}
+			}
+			else {
+				System.out.println("Nothing is selected");
+			}
+			System.out.println(currentCustomer.getCart());
+		}
+	}));
+	
+	//remove item bug: cannot handle multiple items of different types
 	C_CA_removeItemButton.setOnMouseClicked((new EventHandler<javafx.scene.input.MouseEvent>() {
 		String cartItems = "";
 		String removedItem = "";
+		ArrayList<String> checkDuplicate = new ArrayList<String>();
 		public void handle(javafx.scene.input.MouseEvent e) {
-			
+
 			if (C_CA_removeItemBox.getValue() == null)
 			{
 				System.out.println("nothing is selected");
@@ -1124,12 +1488,107 @@ public void start(Stage stage) throws Exception
 			{
 				removedItem = (String) C_CA_removeItemBox.getValue();
 				currentCustomer.removeMenuItem(removedItem);
+				//]C_CA_removeItemBox.getItems().remove(removedItem);
 				System.out.println(currentCustomer.getCart());
+				
 				if(currentCustomer.getCart().isEmpty()) {
-					C_CA_noCart.setText("!");
-					C_CA_noItems.setText("No items are in your cart!");
+					C_CA_itemStatus.setText("!\nNo items are in your cart!");
+				}
+				else {
+					//String cartItems = "";
+					for (int i = 0; i < currentCustomer.getCart().size(); i++ ) // looping through the cart
+					{
+						if (checkDuplicate.contains(currentCustomer.getCart().get(i).getItemName()) == false) {
+							cartItems += currentCustomer.getCart().get(i).getItemName() + "\t" + currentCustomer.getCart().get(i).getPrice()
+									 + "\t" + currentCustomer.getAmountOfItem(currentCustomer.getCart().get(i)) + "\n";
+							checkDuplicate.add(currentCustomer.getCart().get(i).getItemName());
+						}
+					}
+						C_CA_itemStatus.setText(cartItems);
+						C_CA_removeItemBox.setItems(FXCollections.observableArrayList(checkDuplicate));
 				}
 			}
+	}}));
+	
+	C_CA_newOrder.setOnMouseClicked((new EventHandler<javafx.scene.input.MouseEvent>() {
+        public void handle(javafx.scene.input.MouseEvent e) {
+        	C_PI_totalPrice.setText("Total price: " + currentCustomer.getCartPrice());
+            stage.setScene(CCardInfoScene);
+        }
+    }));
+
+	C_PI_confirmOrder.setOnMouseClicked((new EventHandler<javafx.scene.input.MouseEvent>() {
+        FileWriter fw = new FileWriter(CCINFOFILE, true);
+        BufferedWriter bw = new BufferedWriter(fw);
+        PrintWriter out = new PrintWriter(bw);
+        public void handle(javafx.scene.input.MouseEvent e) {
+        	if(C_PI_cardNumber.getText() != "" && C_PI_cardName.getText() != "" && C_PI_secCode.getText() != "" && C_PI_expiration.getText() != "") {
+                currentCustomer.setOrderPlaced(true); //setting orderplaced to true
+                currentCustomer.setOrderETA();//calcuating customer orderETA
+                int totalETA = 50; //hardcoded ETA. U1 = 20, U2 = 30
+                totalETA += currentCustomer.getOrderETA();
+                System.out.println("Order Placed!!!");
+                System.out.println("Order ETA: " + totalETA);
+                System.out.println("Order Total: " +currentCustomer.getCartPrice());
+                currentCustomer.getCart().clear(); // emptying cart
+                C_OSOrder3.setText("Customer 3(you)\t " + totalETA + " minutes");
+                //writing to text file
+				out.append("Customer: " + currentCustomer.getUsername() + "\n");
+				out.append("Cardnum: " + C_PI_cardNumber.getText() + "\n");
+				out.append("Cardname: " + C_PI_cardName.getText() + "\n");
+				out.append("seccode: " + C_PI_secCode.getText() + "\n");
+				out.append("expiration: " + C_PI_expiration.getText() + "\n");
+				out.close();
+                stage.setScene(COrderStatus);
+        	}
+        }
+    }));
+	
+	C_PI_applyCoupon.setOnMouseClicked((new EventHandler<javafx.scene.input.MouseEvent>() {
+		String currCoupon;
+		Double discount;
+		public void handle(javafx.scene.input.MouseEvent e) {
+			//applies coupon if one is selected
+			if(C_PI_couponBox.getValue() != null) {
+				currCoupon = (String) C_PI_couponBox.getValue();
+				currCoupon = currCoupon.substring(currCoupon.lastIndexOf("Discount: ") + 10);
+				System.out.println(currCoupon);
+				discount = Double.valueOf(currCoupon);
+				C_PI_totalPrice.setText("Total Price: " + String.valueOf(currentCustomer.useCoupon(discount, currentCustomer.getCartPrice())));
+			}
+		}
+	}));
+	
+	//Distributing existing coupon to users
+	E_AI_couponButton.setOnMouseClicked((new EventHandler<javafx.scene.input.MouseEvent>() {
+		String couponCode = "";
+		Float couponValue = 0.0f;
+		String currentline = "";
+ 
+		//writing to user
+        FileWriter fw = new FileWriter(COUPONFILE, true);
+        BufferedWriter bw = new BufferedWriter(fw);
+        PrintWriter out = new PrintWriter(bw);
+		public void handle(javafx.scene.input.MouseEvent e) {
+			//redoing code block to allow multiple instances of writing to user
+	        try {
+				fw = new FileWriter(COUPONFILE, true);
+		        bw = new BufferedWriter(fw);
+				out = new PrintWriter(bw);
+			} catch (IOException e1) {
+				System.out.println("Unexpected error when writing to file. couponbutton");
+			}
+ 
+			if(E_AI_couponField != null && E_AI_userBox != null) {
+				couponCode = ((Coupon) E_AI_couponField.getValue()).getCouponCode();
+				couponValue = ((Coupon) E_AI_couponField.getValue()).getCouponDiscount();
+ 
+				//write coupons to user selected
+				out.append("Username: " + E_AI_userField.getValue() + "\n");
+				out.append("Code: " + couponCode + "\n");
+				out.append("Discount: " + couponValue + "\n");
+			}
+			out.close();
 	}}));
 	
 	stage.show();
@@ -1140,46 +1599,13 @@ public void start(Stage stage) throws Exception
 	//stage.setScene(CCartScene);
 	//stage.setScene(CMenuScene);
 	//stage.setScene(CCardInfoScene);
-
+	//stage.setScene(COrderStatus);
+	
 	//stage.setScene(EMenuScene);
 	//stage.setScene(EAccountScene);
 	
-	//code from customer menu that was moved
-	if (currentCustomer.getCart().size() == 0)
-	{
-		C_CA_noCart.setText("!");
-		C_CA_noItems.setText("No items are in your cart!");
-		
-	}
-	else
-	{
-		for (int i = 0; i < currentCustomer.getCart().size(); i++ ) // looping through the cart
-		{
-			if (checkDuplicate.contains(currentCustomer.getCart().get(i).getItemName()) == false) {
-				cartItems += currentCustomer.getCart().get(i).getItemName() + "\t" + currentCustomer.getCart().get(i).getPrice()
-						 + "\t" + currentCustomer.getAmountOfItem(currentCustomer.getCart().get(i)) + "\n";
-				checkDuplicate.add(currentCustomer.getCart().get(i).getItemName());
-			}
-		}
-		C_CA_yesItems.setText(cartItems);
-	}
-	
-	//code from employee account page
-	//appends all existing users to combobox
-	Scanner findName = new Scanner(new FileReader(TEXTFILE));
-	String currentLine = "";
-	String couponUsername = "";
-	ArrayList<String> couponUsernameList = new ArrayList<String>();
-	while(findName.hasNextLine()) {
-		currentLine = findName.nextLine();
-		if(currentLine.contains("username: ")) {
-			couponUsername = currentLine;
-			System.out.println(findName.nextLine());
-			if(findName.nextLine().contains("customer")) {
-				couponUsernameList.add(couponUsername.substring(couponUsername.lastIndexOf(" ") + 1));
-			}
-		}
-	}
+
+
 
 }
 
