@@ -712,7 +712,7 @@ public void start(Stage stage) throws Exception
 
 	//Main Header Menu HBox
 	HBox C_OS_menu = new HBox();
-	C_OS_menu.getChildren().addAll(C_AI_logoBox, C_AI_orderNow, C_AI_cart, C_AI_login);
+	C_OS_menu.getChildren().addAll(C_OS_logoBox, C_OS_orderNow, C_OS_cart, C_OS_login);
 	C_OS_menu.setStyle(NAV_BOX_CSS);
 
 
